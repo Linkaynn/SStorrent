@@ -14,6 +14,7 @@ export class RegisterComponent implements OnInit {
   registerForm : FormGroup;
 
   name: string;
+  username: string;
   email: string;
   message: string;
 
@@ -24,6 +25,7 @@ export class RegisterComponent implements OnInit {
 
     this.registerForm = fb.group({
       name: ['',Validators.required],
+      username: ['',Validators.required],
       email: ['',[Validators.required, Validators.email]],
       message: ['', Validators.required]
     })
@@ -32,7 +34,7 @@ export class RegisterComponent implements OnInit {
 
   sendRequest(){
     this.loading = true;
-    this.userService.sendRequest(this.name, this.email, this.message ).then((response) => {
+    this.userService.sendRequest(this.username, this.name, this.email, this.message ).then((response) => {
       this.loading = false;
       let json = response.json();
 

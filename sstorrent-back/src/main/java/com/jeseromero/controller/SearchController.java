@@ -88,4 +88,16 @@ public class SearchController {
 
 		return mirrors;
 	}
+
+	public Set<Mirror> getAllMirrors() {
+		Session session = DBSessionFactory.instance().openSession();
+
+		Set<Mirror> mirrors = new HashSet<>();
+
+		for (Mirror mirror : ((List<Mirror>) session.createQuery("from Mirror").list())) {
+			mirrors.add(mirror);
+		}
+
+		return mirrors;
+	}
 }

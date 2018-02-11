@@ -1,5 +1,7 @@
 package com.jeseromero.model;
 
+import com.jeseromero.util.RandomString;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -12,20 +14,28 @@ public class Request implements Serializable {
     @Column(name = "id")
     private int id;
 
+	@Column(name = "username", nullable = false)
+	private String username;
+
     @Column(name = "name", nullable = false)
     private String name;
 
 	@Column(name = "email", nullable = false)
 	private String email;
 
+	@Column(name = "password")
+	private String password;
+
 	@Column(name = "message", nullable = false)
 	private String message;
 
 	public Request() {}
 
-	public Request(String name, String email, String message) {
+	public Request(String username, String name, String email, String message) {
+		this.username = username;
 		this.name = name;
 		this.email = email;
+		this.password = new RandomString().nextString();
 		this.message = message;
 	}
 
@@ -47,5 +57,17 @@ public class Request implements Serializable {
 
 	public String getMessage() {
 		return message;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
 	}
 }

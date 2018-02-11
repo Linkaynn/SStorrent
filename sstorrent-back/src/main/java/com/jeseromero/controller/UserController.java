@@ -155,4 +155,16 @@ public class UserController {
 		currentSession.merge(user);
 		transaction.commit();
 	}
+
+	public void changePassword(Token token, String newPassword) {
+		User user = tokens.get(token);
+
+		user.setPassword(newPassword);
+
+		Session currentSession = DBSessionFactory.instance().getCurrentSession();
+
+		Transaction transaction = currentSession.beginTransaction();
+		currentSession.merge(user);
+		transaction.commit();
+	}
 }

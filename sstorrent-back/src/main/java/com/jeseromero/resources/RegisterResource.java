@@ -25,11 +25,11 @@ public class RegisterResource {
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response register(@FormParam("name") String name, @FormParam("email") String email, @FormParam("message") String message) {
+    public Response register(@FormParam("username") String username, @FormParam("name") String name, @FormParam("email") String email, @FormParam("message") String message) {
 
-    	if (name != null && email != null && message != null) {
+    	if (username != null && name != null && email != null && message != null) {
 
-		    Request request = new Request(name, email, message);
+		    Request request = new Request(username, name, email, message);
 
 		    Session session = DBSessionFactory.instance().openSession();
 

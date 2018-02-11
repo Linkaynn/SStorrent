@@ -1,13 +1,14 @@
 package com.jeseromero.resources;
 
+import com.jeseromero.controller.SearchController;
 import com.jeseromero.controller.UserController;
-import com.jeseromero.model.Mirror;
-import com.jeseromero.model.Profile;
-import com.jeseromero.model.Token;
-import com.jeseromero.model.lightweight.JSONError;
-import com.jeseromero.model.lightweight.LightMirrors;
-import com.jeseromero.model.lightweight.SResponse;
+import com.jeseromero.core.controller.ConfigurationController;
+import com.jeseromero.core.model.Configuration;
+import com.jeseromero.model.*;
+import com.jeseromero.model.lightweight.*;
 import com.jeseromero.persistence.DBSessionFactory;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -20,6 +21,106 @@ import java.util.stream.Collectors;
 public class UserResources {
 
     private UserController userController = UserController.instance();
+
+	private SearchController searchController = SearchController.instance();
+
+	@GET
+	@Path("getRequests")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getRequests(@PathParam("token") String token) {
+
+		if (userController.isLogged(new Token(token))) {
+			Session session = DBSessionFactory.instance().openSession();
+
+			List<Request> requests;
+
+			try {
+				requests = session.createQuery("from Request").list();
+			} catch (Exception e) {
+				e.printStackTrace();
+				return Response.ok(new SResponse("error", new JSONError(8, "Error getting the requests")).toJSON()).build();
+			} finally {
+				session.close();
+			}
+
+			return Response.ok()
+					.entity(new SResponse("ok", new JSONLightRequests(requests)).toJSON())
+					.build();
+
+		}
+
+		return Response.ok(new SResponse("error", new JSONError(7, "Error getting the requests")).toJSON()).build();
+	}
+
+	@POST
+	@Path("rejectRequest")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response rejectRequest(@PathParam("token") String token, @FormParam("requestId") int requestId) {
+
+		if (userController.isLogged(new Token(token))) {
+			Session session = DBSessionFactory.instance().openSession();
+
+			Request request;
+
+			try {
+				request = session.get(Request.class, requestId);
+
+				Transaction transaction = session.beginTransaction();
+				session.delete(request);
+				transaction.commit();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				return Response.ok(new SResponse("error", new JSONError(9, "Error rejecting the request")).toJSON()).build();
+			} finally {
+				session.close();
+			}
+
+			return Response.ok()
+					.entity(new SResponse("ok", new JSONLightRequest(request)).toJSON())
+					.build();
+
+		}
+
+		return Response.ok(new SResponse("error", new JSONError(10, "Error rejecting the request")).toJSON()).build();
+	}
+
+	@POST
+	@Path("acceptRequest")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response acceptRequest(@PathParam("token") String token, @FormParam("requestId") int requestId) {
+
+		if (userController.isLogged(new Token(token))) {
+			Session session = DBSessionFactory.instance().openSession();
+
+			Request request;
+
+			try {
+				request = session.get(Request.class, requestId);
+
+				User newUser = new User(request.getUsername(), request.getName(), request.getEmail(), request.getPassword());
+
+				newUser.setMirrors(searchController.getAllMirrors());
+
+				Transaction transaction = session.beginTransaction();
+				session.save(newUser);
+				transaction.commit();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				return Response.ok(new SResponse("error", new JSONError(11, "Error accepting the request")).toJSON()).build();
+			} finally {
+				session.close();
+			}
+
+			return Response.ok()
+					.entity(new SResponse("ok", new JSONLightRequest(request)).toJSON())
+					.build();
+
+		}
+
+		return Response.ok(new SResponse("error", new JSONError(12, "Error accepting the request")).toJSON()).build();
+	}
 
     @GET
     @Path("me")
@@ -74,11 +175,20 @@ public class UserResources {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response updateProfile(@PathParam("token") String token,
 	                              @FormParam("name") String name,
+	                              @FormParam("newPassword") String newPassword,
 	                              @FormParam("mirrors") String mirrorsByComma) {
+
 		String[] mirrors = mirrorsByComma.split(",");
 
 		try {
-			userController.updateProfile(new Token(token), name, mirrors);
+			Token _token = new Token(token);
+
+			userController.updateProfile(_token, name, mirrors);
+
+			if (!newPassword.equals("null")) {
+				userController.changePassword(_token, newPassword);
+			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 

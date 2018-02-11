@@ -1,0 +1,81 @@
+import { Component, OnInit } from '@angular/core';
+import { BaseComponent } from '../base/base.component';
+import { RequestService } from '../../services/request.service';
+
+@Component({
+  selector: 'app-requests',
+  templateUrl: './requests.component.html',
+  styleUrls: ['./requests.component.scss']
+})
+export class RequestsComponent extends BaseComponent {
+
+  requests : any[];
+
+  constructor(private requestService : RequestService) {
+    super();
+
+    this.startLoading();
+    this.requestService.getRequests(this.currentUser().token.token).then((response) => {
+      this.stopLoading();
+
+      let json = response.json();
+
+      if (json.status == "error") {
+        this.error("An error happend retrieving de requests.")
+      } else {
+        this.requests = json.data.requests;
+      }
+
+    }).catch((err) => {
+      this.stopLoading();
+      console.error(err);
+      this.error("Internal. An error happend retrieving de requests.")
+    })
+  }
+
+  reject(request) {
+    this.startLoading();
+    this.requestService.rejectRequest(request, this.currentUser().token.token).then((response) => {
+      this.stopLoading();
+
+      let json = response.json();
+
+      if (json.status == "error") {
+        this.error("An error happend rejecting de requests.")
+      } else {
+        for (let i = 0; i < this.requests.length; i++) {
+            if (this.requests[i].id == request.id) {
+              this.requests.splice(i, 1)
+              break;
+            }
+        }
+      }
+    }).catch((err) => {
+      this.stopLoading();
+      console.error(err);
+      this.error("Internal. An error happend rejecting de requests.")
+    })
+  }
+
+  accept(request) {
+    this.startLoading();
+    this.requestService.acceptRequest(request, this.currentUser().token.token).then((response) => {
+      this.stopLoading();
+
+      let json = response.json();
+
+      if (json.status == "error") {
+        this.error("An error happend accepting de requests.")
+      } else {
+        this.success("Request accepted.")
+      }
+    }).catch((err) => {
+      this.stopLoading();
+      console.error(err);
+      this.error("Internal. An error happend accepting de requests.")
+    })
+  }
+
+
+
+}

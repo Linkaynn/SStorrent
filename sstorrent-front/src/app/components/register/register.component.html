@@ -1,14 +1,19 @@
-
+<ngx-loading [show]="loading"></ngx-loading>
 <div class="container">
   <h3 class="text-center bold brand-color">Register</h3>
   <form [formGroup]="registerForm" class="form-control">
     <div class="row">
-      <div class="col-6">
+      <div class="col-4">
         <label for="name" class="margin-0 margin-bottom-10 bold brand-color">Name</label>
         <span class="field-error semi-bold" *ngIf="getFieldError(registerForm, 'name') != ''">({{getFieldError(registerForm, 'name')}})</span>
         <input placeholder="Full name" type="text" name="name" id="name" formControlName="name" class="form-control" [(ngModel)]="name">
       </div>
-      <div class="col-6">
+      <div class="col-4">
+        <label for="username" class="margin-0 margin-bottom-10 bold brand-color">Username</label>
+        <span class="field-error semi-bold" *ngIf="getFieldError(registerForm, 'username') != ''">({{getFieldError(registerForm, 'username')}})</span>
+        <input placeholder="Your username" type="text" name="username" id="username" formControlName="username" class="form-control" [(ngModel)]="username">
+      </div>
+      <div class="col-4">
         <label for="email" class="margin-0 margin-bottom-10 bold brand-color">Email</label>
         <span class="field-error semi-bold" *ngIf="getFieldError(registerForm, 'email') != ''">({{getFieldError(registerForm, 'email')}})</span>
         <input placeholder="..@..com" type="text" name="email" id="email" formControlName="email" class="form-control" [(ngModel)]="email">

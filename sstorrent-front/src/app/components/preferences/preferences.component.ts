@@ -11,6 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class PreferencesComponent extends BaseComponent {
 
   name : string = this.currentUser().name;
+  newPassword : string = null;
 
   allMirrors : string[] = null;
   userMirrors : string[] = [];
@@ -25,6 +26,7 @@ export class PreferencesComponent extends BaseComponent {
 
     this.preferenceForm = fb.group({
       name: ['', [Validators.required, Validators.maxLength(15)]],
+      newPassword: ['', [Validators.minLength(3), Validators.maxLength(15)]],
       mirrors: ['']
     })
   }
@@ -76,13 +78,15 @@ export class PreferencesComponent extends BaseComponent {
 
   updateProfile() {
     this.startLoading();
-    this.userService.updateProfile(this.name, this.getMirrorsFromModel(), this.currentUser().token.token).then((response) =>  {
+    this.userService.updateProfile(this.name, this.newPassword, this.getMirrorsFromModel(), this.currentUser().token.token).then((response) =>  {
       let json = response.json();
       if (json.status == "error") {
         this.error("Error updating your profile. Try again later");
         this.stopLoading();
       } else {
+        this.success("Profile updated.")
         this.currentUser().name = this.name;
+        this.newPassword = "";
         this.retrieveMirrors();
       }
     }).catch((err) => {

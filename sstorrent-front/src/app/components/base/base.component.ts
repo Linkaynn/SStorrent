@@ -45,7 +45,7 @@ export class BaseComponent implements OnInit {
 
   private setCurrentUser() {
     let user = JSON.parse(localStorage.getItem("user"));
-    BaseComponent.currentUser = new User(user.name, user.token);
+    BaseComponent.currentUser = new User(user.username, user.name, user.email, user.token);
   }
 
   public error(message) {
@@ -88,7 +88,7 @@ export class BaseComponent implements OnInit {
       }
 
       if (minLength) {
-        return `Debe ser mayor de ${minLength.requiredLength - 1} caracteres`
+        return `Must be greater than ${minLength.requiredLength - 1} characters`
       }
 
       if (maxLength) {

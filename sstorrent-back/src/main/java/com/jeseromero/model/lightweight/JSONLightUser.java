@@ -5,19 +5,33 @@ import com.jeseromero.model.User;
 
 
 public class JSONLightUser extends JSONable{
+    private final String username;
     private final String name;
+    private final String email;
+
     private final Token token;
 
     public JSONLightUser(User user, Token token) {
+        this.username = user.getUsername();
         this.name = user.getName();
+        this.email = user.getEmail();
+
         this.token = token;
     }
 
-    public String getName() {
+	public String getUsername() {
+		return username;
+	}
+
+	public String getName() {
         return name;
     }
 
     public Token getToken() {
         return token;
+    }
+
+    public String getEmail() {
+        return email;
     }
 }

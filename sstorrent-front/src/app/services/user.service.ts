@@ -39,14 +39,14 @@ export class UserService {
     return this.http.get(url, {headers: this.basicHeader}).toPromise();
   }
 
-  public updateProfile(name, mirrors : string[], token) : Promise<any>{
+  public updateProfile(name, newPassword, mirrors : string[], token) : Promise<any>{
     let url : string = `${environment.base_url}/${token}/updateProfile`;
-    return this.http.post(url, `name=${name}&mirrors=${mirrors.join(',')}`, {headers: this.formHeader}).toPromise();
+    return this.http.post(url, `name=${name}&newPassword=${newPassword}&mirrors=${mirrors.join(',')}`, {headers: this.formHeader}).toPromise();
   }
 
-  public sendRequest(name, email, message) : Promise<any> {
+  public sendRequest(username, name, email, message) : Promise<any> {
     let url : string = `${environment.base_url}/sendRequest`;
-    return this.http.post(url, `name=${name}&email=${email}&message=${message}`, {headers: this.formHeader}).toPromise();
+    return this.http.post(url, `username=${username}&name=${name}&email=${email}&message=${message}`, {headers: this.formHeader}).toPromise();
   }
 
 }

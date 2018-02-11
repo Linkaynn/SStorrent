@@ -1,0 +1,30 @@
+<div class="container">
+  <h3 class="text-center bold brand-color margin-bottom-10">Requests</h3>
+
+  <table class="table table-bordered" *ngIf="requests != null && requests.length > 0; else noRequests">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Username</th>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Message</th>
+        <th>Password</th>
+        <th colspan="2">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let request of requests">
+        <td><a>{{request.username}}</a></td>
+        <td><a>{{request.name}}</a></td>
+        <td><a>{{request.email}}</a></td>
+        <td><a>{{request.message}}</a></td>
+        <td><a>{{request.password}}</a></td>
+        <td><button type="button" class="btn btn-success" name="button" (click)="accept(request)">Accept</button></td>
+        <td><button type="button" class="btn btn-danger" name="button" (click)="reject(request)">Reject</button></td>
+      </tr>
+    </tbody>
+  </table>
+  <ng-template #noRequests>
+    <h4 class="text-center">You don't have requests</h4>
+  </ng-template>
+</div>
