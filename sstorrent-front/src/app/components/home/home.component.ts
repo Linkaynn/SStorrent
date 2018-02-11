@@ -9,7 +9,7 @@ import { UserService } from '../../services/user.service';
 })
 export class HomeComponent extends BaseComponent {
 
-  private searches : string[];
+  searches : string[];
 
   constructor(private userService : UserService) {
     super();

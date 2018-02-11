@@ -15,10 +15,10 @@ import { TorrentModalComponent } from '../torrent-modal/torrent-modal.component'
 })
 export class SearchComponent extends BaseComponent {
 
-  private torrents = [];
+  torrents = [];
 
-  private value : string;
-  private mirror : string = "all";
+  value : string;
+  mirror : string = "all";
 
   searchForm: FormGroup;
 
