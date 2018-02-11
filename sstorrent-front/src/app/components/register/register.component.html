@@ -1,0 +1,30 @@
+
+<div class="container">
+  <h3 class="text-center bold brand-color">Register</h3>
+  <form [formGroup]="registerForm" class="form-control">
+    <div class="row">
+      <div class="col-6">
+        <label for="name" class="margin-0 margin-bottom-10 bold brand-color">Name</label>
+        <span class="field-error semi-bold" *ngIf="getFieldError(registerForm, 'name') != ''">({{getFieldError(registerForm, 'name')}})</span>
+        <input placeholder="Full name" type="text" name="name" id="name" formControlName="name" class="form-control" [(ngModel)]="name">
+      </div>
+      <div class="col-6">
+        <label for="email" class="margin-0 margin-bottom-10 bold brand-color">Email</label>
+        <span class="field-error semi-bold" *ngIf="getFieldError(registerForm, 'email') != ''">({{getFieldError(registerForm, 'email')}})</span>
+        <input placeholder="..@..com" type="text" name="email" id="email" formControlName="email" class="form-control" [(ngModel)]="email">
+      </div>
+      <div class="col-12">
+        <label for="message" class="margin-0 margin-bottom-10 bold brand-color margin-top-30">Why do you want an account?</label>
+        <span class="field-error semi-bold" *ngIf="getFieldError(registerForm, 'message') != ''">({{getFieldError(registerForm, 'message')}})</span>
+        <textarea  placeholder="Why do you want an account?" name="message" id="message" formControlName="message" class="form-control " [(ngModel)]="message"></textarea>
+      </div>
+    </div>
+  </form>
+  <div class="text-center margin-top-20">
+    <button type="button" class="btn btn-primary" name="button" [disabled]="!registerForm.valid" (click)="sendRequest()">Send request</button>
+    <button type="button" class="btn btn-primary" name="button" [routerLink]="('/')">I have an account</button>
+
+  </div>
+
+
+</div>

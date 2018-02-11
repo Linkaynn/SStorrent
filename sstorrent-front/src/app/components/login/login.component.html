@@ -1,5 +1,5 @@
 <div class="container text-center paddin-30 bold brand-color">
-  <h2>SSTorrent</h2>
+  <h2 class="bold brand-color">SSTorrent</h2>
 </div>
 
 <div class="container">
@@ -20,6 +20,6 @@
 
   <div class="text-center margin-top-20">
     <button type="button" class="btn btn-primary" name="button" [disabled]="!loginForm.valid" (click)="onLogin()">Login</button>
-    <button type="button" class="btn btn-primary" name="button">Recover password</button>
+    <button type="button" class="btn btn-primary" name="button" [routerLink]="('/register')">Get an account</button>
   </div>
 </div>

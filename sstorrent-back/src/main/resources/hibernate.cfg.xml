@@ -15,5 +15,7 @@
         <mapping class="com.jeseromero.model.Mirror"/>
         <mapping class="com.jeseromero.model.Search"/>
         <mapping class="com.jeseromero.model.User"/>
+        <mapping class="com.jeseromero.model.Request"/>
+
     </session-factory>
 </hibernate-configuration>
