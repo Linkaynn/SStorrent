@@ -34,4 +34,14 @@ export class UserService {
     return this.http.get(url, {headers: this.basicHeader}).toPromise();
   }
 
+  public getAllMirrors(token) : Promise<any> {
+    let url : string = `${environment.base_url}/${token}/retrieveAllMirrors`;
+    return this.http.get(url, {headers: this.basicHeader}).toPromise();
+  }
+
+  public updateProfile(name, mirrors : string[], token) {
+    let url : string = `${environment.base_url}/${token}/updateProfile`;
+    return this.http.post(url, `name=${name}&mirrors=${mirrors.join(',')}`, {headers: this.formHeader}).toPromise();
+  }
+
 }

@@ -8,12 +8,12 @@
       <div class="col-4 offset-4">
         <label class="margin-0 margin-top-15 bold brand-color" for="username">Username</label>
         <span class="field-error semi-bold" *ngIf="getFieldError(loginForm, 'username') != ''">({{getFieldError(loginForm, 'username')}})</span>
-        <input class="form-control" type="text" name="username" value="" placeholder="Your username" formControlName="username" [(ngModel)]="username">
+        <input class="form-control" type="text" name="username" value="" placeholder="Your username" formControlName="username" [(ngModel)]="username" (keyup.enter)="onLogin()">
       </div>
       <div class="col-4 offset-4">
         <label class="margin-0 margin-top-15 bold brand-color" for="password">Password</label>
         <span class="field-error semi-bold" *ngIf="getFieldError(loginForm, 'password') != ''">({{getFieldError(loginForm, 'password')}})</span>
-        <input class="form-control" type="password" name="password" value="" placeholder="********" formControlName="password" [(ngModel)]="password">
+        <input class="form-control" type="password" name="password" value="" placeholder="********" formControlName="password" [(ngModel)]="password" (keyup.enter)="onLogin()">
       </div>
     </div>
   </form>

@@ -23,6 +23,8 @@ public class UserController {
 
     private static UserController instance = null;
 
+	private SearchController searchController = SearchController.instance();
+
     public static UserController instance() {
         if (instance == null) {
             instance = new UserController();
@@ -90,14 +92,14 @@ public class UserController {
         return profile;
     }
 
-    public List<String> getMirrors(Token token) {
+    public List<Mirror> getMirrors(Token token) {
 
         User user = tokens.get(token);
 
         if (user != null) {
             user.refresh();
 
-            return user.getMirrors().stream().filter(Mirror::isWorking).map(Mirror::getName).collect(Collectors.toList());
+            return user.getMirrors().stream().filter(Mirror::isWorking).collect(Collectors.toList());
         }
 
         return null;
@@ -139,4 +141,18 @@ public class UserController {
 	    }
 
     }
+
+	public void updateProfile(Token token, String name, String[] mirrors) {
+		User user = tokens.get(token);
+
+		user.setName(name);
+
+		user.setMirrors(searchController.getMirrors(mirrors));
+
+		Session currentSession = DBSessionFactory.instance().getCurrentSession();
+
+		Transaction transaction = currentSession.beginTransaction();
+		currentSession.merge(user);
+		transaction.commit();
+	}
 }

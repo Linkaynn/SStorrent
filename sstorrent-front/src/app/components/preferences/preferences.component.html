@@ -1,0 +1,24 @@
+<div class="container">
+  <h3 class="text-center bold brand-color">Your profile</h3>
+
+  <form [formGroup]="preferenceForm">
+    <label class="margin-0 margin-top-15 bold brand-color" for="name">Name</label>
+    <span class="field-error semi-bold" *ngIf="getFieldError(preferenceForm, 'name') != ''">({{getFieldError(preferenceForm, 'name')}})</span>
+    <input class="form-control" type="text" name="name" value="" placeholder="Your name" formControlName="name" [(ngModel)]="name">
+
+    <div *ngIf="allMirrors">
+      <p class="margin-0 margin-top-15">
+        <label class="margin-0 bold brand-color" for="name">Your mirrors</label>
+        <span class="field-error semi-bold" *ngIf="getFieldError(preferenceForm, 'mirrors') != ''">({{getFieldError(preferenceForm, 'mirrors')}})</span>
+      </p>
+      <div class="btn-group btn-group-toggle">
+        <label class="btn-primary" ngbButtonLabel *ngFor="let mirror of allMirrors">
+          <input type="checkbox" ngbButton [(ngModel)]="userMirrors[mirror]" formControlName="mirrors"> {{mirror}}
+        </label>
+      </div>
+    </div>
+  </form>
+
+
+  <button type="button" class="btn btn-primary margin-top-15 float-right" name="button" [disabled]="!validProfile()" (click)="updateProfile()">Update profile</button>
+</div>

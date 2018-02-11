@@ -2,14 +2,14 @@
   <form class="form-control" [formGroup]="searchForm">
     <div class="row">
       <div class="col-4">
-        <input class="form-control" type="text" name="value" [(ngModel)]="value" formControlName="value" (keyup.enter)="search()">
+        <input class="form-control" type="text" name="value" [(ngModel)]="value" placeholder="Search anything you want" formControlName="value" (keyup.enter)="search()">
       </div>
       <div class="col-6">
         <select class="form-control" name="mirror" *ngIf="currentUser().mirrors.length > 0" [(ngModel)]="mirror" formControlName="mirror">
           <option *ngFor="let mirror of currentUser().mirrors" value="{{mirror}}">{{mirror}}</option>
         </select>
       </div>
-      <div class="col-2">
+      <div class="col-2 text-center">
         <button type="button" class="btn btn-primary" name="button" [disabled]="!isValidSearch()" (click)="search()">Search</button>
       </div>
     </div>
@@ -33,7 +33,7 @@
         <td><a>{{torrent.leechers}}</a></td>
         <td><a>{{torrent.seeders}}</a></td>
         <td><a>{{torrent.size}}</a></td>
-        <td><a class="bold brand-color link" (click)="retrieveLink(torrent)">Link</a></td>
+        <td><button type="button" class="btn btn-primary" name="button" (click)="retrieveLink(torrent)">View</button></td>
       </tr>
     </tbody>
   </table>

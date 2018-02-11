@@ -19,6 +19,7 @@ import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { SearchComponent } from './search/search.component';
 import { TorrentModalComponent } from './torrent-modal/torrent-modal.component';
+import { PreferencesComponent } from './preferences/preferences.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { TorrentModalComponent } from './torrent-modal/torrent-modal.component';
     LoginComponent,
     HomeComponent,
     SearchComponent,
-    TorrentModalComponent
+    TorrentModalComponent,
+    PreferencesComponent
   ],
   entryComponents: [
     TorrentModalComponent
@@ -53,6 +55,11 @@ import { TorrentModalComponent } from './torrent-modal/torrent-modal.component';
     {
       path: 'search',
       component: SearchComponent,
+      canActivate: [AuthGuardService]
+    },
+    {
+      path: 'preferences',
+      component: PreferencesComponent,
       canActivate: [AuthGuardService]
     },
     {

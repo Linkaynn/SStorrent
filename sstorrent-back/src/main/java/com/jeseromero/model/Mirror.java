@@ -2,6 +2,7 @@ package com.jeseromero.model;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity(name = "Mirror")
@@ -63,5 +64,28 @@ public class Mirror implements Serializable {
 
     public boolean isWorking() {
         return working;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+
+        if (o == null) return false;
+
+        if (o.getClass() == String.class) {
+            return ((String) o).equals(this.collapsedName);
+        }
+
+        if (getClass() != o.getClass()) return false;
+
+        Mirror mirror = (Mirror) o;
+        return id == mirror.id && Objects.equals(collapsedName, mirror.collapsedName);
+
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, name, collapsedName, working, users);
     }
 }

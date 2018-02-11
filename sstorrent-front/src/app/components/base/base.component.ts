@@ -92,7 +92,7 @@ export class BaseComponent implements OnInit {
       }
 
       if (maxLength) {
-        return `Debe ser menor de ${maxLength.requiredLength + 1} caracteres`
+        return `Must be less than ${maxLength.requiredLength + 1} characters`
       }
 
       if (pattern) {

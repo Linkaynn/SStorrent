@@ -5,13 +5,14 @@ import com.jeseromero.core.controller.ConfigurationController;
 import com.jeseromero.core.controller.TorrentSearcher;
 import com.jeseromero.core.model.Configuration;
 import com.jeseromero.core.model.Torrent;
+import com.jeseromero.model.Mirror;
 import com.jeseromero.model.lightweight.JSONLightLink;
 import com.jeseromero.persistence.DBSessionFactory;
 import com.jeseromero.util.SLogger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import java.util.Collection;
+import java.util.*;
 
 public class SearchController {
 
@@ -66,5 +67,25 @@ public class SearchController {
 		} finally {
 			session.close();
 		}
+	}
+
+	public Set<Mirror> getMirrors(String[] _mirrors) {
+		Set<Mirror> mirrors = new HashSet<>();
+
+		Session session = DBSessionFactory.instance().openSession();
+
+		List<Mirror> allMirrors = session.createQuery("from Mirror").list();
+
+		for (String _mirror : _mirrors) {
+			String collapsedName = getCollapsedName(_mirror);
+
+			for (Mirror mirror : allMirrors) {
+				if (mirror.getCollapsedName().equals(collapsedName)) {
+					mirrors.add(mirror);
+				}
+			}
+		}
+
+		return mirrors;
 	}
 }
