@@ -1,0 +1,37 @@
+// This creates margins and paddings
+@mixin new-margin-and-padding ($space) {
+	// Margin
+	.margin-#{$space} { margin: #{$space}px; }
+
+	.margin-top-#{$space},
+	.margin-vertical-#{$space} { margin-top: #{$space}px; }
+
+	.margin-bottom-#{$space},
+	.margin-vertical-#{$space} { margin-bottom: #{$space}px; }
+
+	.margin-left-#{$space},
+	.margin-horizontal-#{$space} { margin-left: #{$space}px; }
+
+	.margin-right-#{$space},
+	.margin-horizontal-#{$space} { margin-right: #{$space}px; }
+
+	// Padding
+	.padding-#{$space} { padding: #{$space}px; }
+
+	.padding-top-#{$space},
+	.padding-vertical-#{$space} { padding-top: #{$space}px; }
+
+	.padding-bottom-#{$space},
+	.padding-vertical-#{$space}{ padding-bottom: #{$space}px; }
+
+	.padding-left-#{$space},
+	.padding-horizontal-#{$space} { padding-left: #{$space}px; }
+
+	.padding-right-#{$space},
+	.padding-horizontal-#{$space}{ padding-right: #{$space}px; }
+}
+
+// Last isn't included
+@for $i from 0 to 11 {
+	 @include new-margin-and-padding($i * 5);
+}

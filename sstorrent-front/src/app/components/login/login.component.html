@@ -1,0 +1,25 @@
+<div class="container text-center paddin-30 bold brand-color">
+  <h2>SSTorrent</h2>
+</div>
+
+<div class="container">
+  <form [formGroup]="loginForm">
+    <div class="row">
+      <div class="col-4 offset-4">
+        <label class="margin-0 margin-top-15 bold brand-color" for="username">Username</label>
+        <span class="field-error semi-bold" *ngIf="getFieldError(loginForm, 'username') != ''">({{getFieldError(loginForm, 'username')}})</span>
+        <input class="form-control" type="text" name="username" value="" placeholder="Your username" formControlName="username" [(ngModel)]="username">
+      </div>
+      <div class="col-4 offset-4">
+        <label class="margin-0 margin-top-15 bold brand-color" for="password">Password</label>
+        <span class="field-error semi-bold" *ngIf="getFieldError(loginForm, 'password') != ''">({{getFieldError(loginForm, 'password')}})</span>
+        <input class="form-control" type="password" name="password" value="" placeholder="********" formControlName="password" [(ngModel)]="password">
+      </div>
+    </div>
+  </form>
+
+  <div class="text-center margin-top-20">
+    <button type="button" class="btn btn-primary" name="button" [disabled]="!loginForm.valid" (click)="onLogin()">Login</button>
+    <button type="button" class="btn btn-primary" name="button">Recover password</button>
+  </div>
+</div>

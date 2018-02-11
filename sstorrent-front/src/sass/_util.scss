@@ -1,0 +1,27 @@
+.link {
+  cursor: pointer;
+}
+
+.brand-color {
+  color: $brand-color !important;
+}
+
+.field-error {
+  color: $error-color;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.semi-bold {
+  font-weight: 600;
+}
+
+.extra-bold {
+  font-weight: 900;
+}
+
+.italic {
+  font-style: italic;
+}
