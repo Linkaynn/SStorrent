@@ -1,0 +1,35 @@
+<div class="modal-header" *ngIf="torrent && mirror">
+  <h5 class="modal-title">Retrieving torrent link from <span class="bold brand-color">{{mirror}}</span></h5>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <ul class="list-group">
+    <li class="list-group-item"><span class="bold brand-color">Name:</span> {{torrent.name}}</li>
+    <li class="list-group-item"><span class="bold brand-color">Date:</span> {{torrent.date}}</li>
+    <li class="list-group-item"><span class="bold brand-color">Leechers:</span> {{torrent.leechers}}</li>
+    <li class="list-group-item"><span class="bold brand-color">Seederes:</span> {{torrent.seeders}}</li>
+    <li class="list-group-item"><span class="bold brand-color">Size:</span> {{torrent.size}}</li>
+
+    <li class="list-group-item" *ngIf="link">
+      <a [href]="sanitization.bypassSecurityTrustResourceUrl(link)">
+        <span *ngIf="linkType == 'magnet'">
+          Magnet
+          <i class="mdi mdi-magnet"></i>
+        </span>
+        <span *ngIf="linkType == 'direct'">
+          Direct download
+          <i class="mdi mdi-download"></i>
+        </span>
+      </a>
+    </li>
+  </ul>
+
+  <div class="text-center">
+    <button type="button" class="btn btn-outline-dark margin-top-10" (click)="retrieveLink()">Retrieve link</button>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.dismiss()">Close</button>
+</div>

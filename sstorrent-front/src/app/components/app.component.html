@@ -1,6 +1,6 @@
 <header class="navbar navbar-light navbar-fixed-top navbar-expand-lg" *ngIf="isLogged()">
 
-    <a class="navbar-brand bold brand-color" [routerLink]="['/']" (click)="navbarCollapsed = true">sstorrent</a>
+    <a class="navbar-brand bold brand-color" [routerLink]="['/']" (click)="navbarCollapsed = true">{{currentUser().name}}</a>
 
     <button class="navbar-toggler navbar-toggler-right" type="button" (click)="navbarCollapsed = !navbarCollapsed"
             [attr.aria-expanded]="!navbarCollapsed" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,6 +11,9 @@
       <ul class="navbar-nav mr-auto">
         <li class="nav-item" [routerLinkActive]="['active']">
           <a class="nav-link" [routerLink]="['/search']" (click)="navbarCollapsed = true">Search</a>
+        </li>
+        <li class="nav-item" [routerLinkActive]="['active']">
+          <a class="nav-link" [routerLink]="['/configuration']" (click)="navbarCollapsed = true">Preferences</a>
         </li>
         <li class="nav-item">
           <a class="github-button nav-link" [routerLink]="['/']" (click)="logout()">Logout</a>

@@ -15,7 +15,14 @@ public class Search implements Serializable {
     @Column(name = "search", nullable = false)
     private String search;
 
-    public Search() {
+	@Column(name = "user_id", nullable = false)
+	private int userId;
+
+	public Search() {}
+
+    public Search(User user, String value) {
+    	userId = user.getId();
+    	search = value;
     }
 
     public int getId() {

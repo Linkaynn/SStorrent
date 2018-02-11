@@ -121,4 +121,8 @@ public class User implements Serializable{
     public void refresh() {
         DBSessionFactory.instance().openSession().refresh(this);
     }
+
+    public void addSearch(Search search) {
+        searches.add(search);
+    }
 }

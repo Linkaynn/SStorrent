@@ -5,6 +5,8 @@ import { BaseComponent } from '../base/base.component';
 
 import { UserService } from '../../services/user.service';
 import { SearchService } from '../../services/search.service';
+import { ActivatedRoute } from '@angular/router';
+import { TorrentModalComponent } from '../torrent-modal/torrent-modal.component';
 
 @Component({
   selector: 'app-search',
@@ -20,9 +22,18 @@ export class SearchComponent extends BaseComponent {
 
   searchForm: FormGroup;
 
-  constructor(private userService : UserService, private fb : FormBuilder, private searchService : SearchService) {
+  constructor(private userService : UserService, private fb : FormBuilder, private searchService : SearchService, private route: ActivatedRoute) {
     super();
 
+    this.retrieveMirrors();
+
+    this.searchForm = fb.group({
+      value: ['', Validators.required],
+      mirror: ['', Validators.required]
+    })
+  }
+
+  retrieveMirrors() {
     this.startLoading();
     this.userService.getMirrors(this.currentUser().token.token).then((response) => {
       this.stopLoading();
@@ -35,48 +46,58 @@ export class SearchComponent extends BaseComponent {
       } else {
         this.currentUser().setMirrors(json.data.mirrors);
         this.mirror = this.currentUser().mirrors[0];
+
+        const value = this.route.snapshot.paramMap.get('value');
+
+        if (value != null) {
+          this.value = value;
+        }
+
       }
     }).catch((err) => {
       this.stopLoading();
       console.error(err);
       this.error("An error was happend retrieving your mirrors. Reload page please.")
     })
-
-
-    this.searchForm = fb.group({
-      value: ['', Validators.required],
-      mirror: ['', Validators.required]
-    })
   }
 
   search() {
-    this.startLoading();
+    if (this.isValidSearch()) {
+      this.startLoading();
 
-    this.searchService.search(this.mirror, this.value, this.currentUser().token.token).then((response) => {
-      this.stopLoading();
+      this.searchService.search(this.mirror, this.value.trim(), this.currentUser().token.token).then((response) => {
+        this.stopLoading();
 
-      let json = response.json();
+        let json = response.json();
 
-      if (json.status == "error") {
-        if (this.currentUser().token.hasExpired()) {
-          this.logout();
-          this.error("Your session expired.")
+        if (json.status == "error" || !json.data) {
+          if (this.currentUser().token.hasExpired()) {
+            this.logout();
+            this.error("Your session expired.")
+          } else {
+            this.error(`Error searching ${this.value}, try again later.`)
+          }
         } else {
-          this.error(`Error searching ${this.value}, try again later.`)
+          if (json.data.lightTorrents) {
+            this.torrents = json.data.lightTorrents;
+          }
         }
-      } else {
-        if (json.data.lightTorrents) {
-          this.torrents = json.data.lightTorrents;
-        }
-      }
-    }).catch((err) => {
-      this.stopLoading();
-      console.error(err);
-    })
+      }).catch((err) => {
+        this.stopLoading();
+        console.error(err);
+        this.error(`Internal. Error searching ${this.value}, try again later.`)
+      })
+    }
   }
 
-  retrieveLink(url) {
-    console.log(this.mirror + " - " + url);
+  isValidSearch() {
+    return this.searchForm.valid && this.value.trim().length > 0;
+  }
+
+  retrieveLink(torrent) {
+    const modal = this.openModal(TorrentModalComponent);
+    modal.componentInstance.mirror = this.mirror;
+    modal.componentInstance.torrent = torrent;
   }
 
 }

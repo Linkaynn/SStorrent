@@ -5,7 +5,9 @@ import com.jeseromero.core.controller.ConfigurationController;
 import com.jeseromero.core.controller.TorrentSearcher;
 import com.jeseromero.core.model.Configuration;
 import com.jeseromero.core.model.Torrent;
+import com.jeseromero.model.lightweight.JSONLightLink;
 import com.jeseromero.persistence.DBSessionFactory;
+import com.jeseromero.util.SLogger;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
@@ -13,10 +15,11 @@ import java.util.Collection;
 
 public class SearchController {
 
+	private static final SLogger logger = new SLogger(SearchController.class.getName());
+
     private static SearchController instance;
 
     public static SearchController instance() {
-
         if (instance == null) {
             instance = new SearchController();
         }
@@ -25,26 +28,43 @@ public class SearchController {
     }
 
     public Collection<Torrent> search(String mirror, String value, int index) {
-        ConfigurationController configurationController = new ConfigurationController();
+	    Configuration mirrorConfig = getConfiguration(mirror);
 
-        Configuration mirrorConfig = configurationController.getConfigurationByName(getCollapsedName(mirror));
+	    if (mirrorConfig == null) return null;
 
-        if (mirrorConfig == null) {
-            throw new IllegalArgumentException(mirror + " doesn't exist like a mirror. Possible mirrors are: " + configurationController.allConfigurations().stream().map((Configuration::getName)).reduce((s, s2) -> s + ", " + s2));
-        }
-
-        return new TorrentSearcher(mirrorConfig).search(value, index).get(mirrorConfig);
+        return new TorrentSearcher(mirrorConfig).search(value, index);
     }
 
-    private String getCollapsedName(String mirror) {
-        Session session = DBSessionFactory.instance().openSession();
+    public JSONLightLink retrieveLink(String link, String mirror) {
+	    Configuration mirrorConfig = getConfiguration(mirror);
 
-        try {
-            Query query = session.createQuery(String.format("SELECT collapsedName FROM Mirror WHERE name = '%s'", mirror));
+	    if (mirrorConfig == null) return null;
 
-            return (String) query.list().get(0);
-        } finally {
-            session.close();
-        }
+	    return new TorrentSearcher(mirrorConfig).retrieveLink(link);
     }
+
+	private Configuration getConfiguration(String mirror) {
+		ConfigurationController configurationController = new ConfigurationController();
+
+		Configuration mirrorConfig = configurationController.getConfigurationByName(getCollapsedName(mirror));
+
+		if (mirrorConfig == null) {
+			logger.warning(mirror + " doesn't exist like a mirror. Possible mirrors are: " + configurationController.allConfigurations().stream().map((Configuration::getName)).reduce((s, s2) -> s + ", " + s2));
+
+			return null;
+		}
+		return mirrorConfig;
+	}
+
+	private String getCollapsedName(String mirror) {
+		Session session = DBSessionFactory.instance().openSession();
+
+		try {
+			Query query = session.createQuery(String.format("SELECT collapsedName FROM Mirror WHERE name = '%s'", mirror));
+
+			return (String) query.list().get(0);
+		} finally {
+			session.close();
+		}
+	}
 }

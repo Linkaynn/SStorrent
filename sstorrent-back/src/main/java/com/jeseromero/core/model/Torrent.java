@@ -86,14 +86,4 @@ public class Torrent {
 	public String getLeechers() {
 		return leechers;
 	}
-
-	public void fillData() {
-		Document htmlDocument = new JSOUPController().getHtmlDocument(url);
-
-		if (htmlDocument != null) {
-			magnetLink = configuration.getMagnetLink(htmlDocument);
-
-			directDownloadLink = configuration.getDirectDownloadLink(htmlDocument);
-		}
-	}
 }

@@ -24,7 +24,7 @@ export class HomeComponent extends BaseComponent {
         this.error("An error was happend retrieving your profile. Probably your session expire.")
         this.logout();
       } else {
-        this.searches = json.data;
+        this.searches = json.data.searches;
       }
     }).catch((err) => {
       this.stopLoading();

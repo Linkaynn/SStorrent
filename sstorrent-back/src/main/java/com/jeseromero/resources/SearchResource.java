@@ -4,10 +4,7 @@ import com.jeseromero.controller.SearchController;
 import com.jeseromero.controller.UserController;
 import com.jeseromero.core.model.Torrent;
 import com.jeseromero.model.Token;
-import com.jeseromero.model.lightweight.JSONError;
-import com.jeseromero.model.lightweight.JSONLightTorrent;
-import com.jeseromero.model.lightweight.JSONLightTorrents;
-import com.jeseromero.model.lightweight.SResponse;
+import com.jeseromero.model.lightweight.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -30,20 +27,43 @@ public class SearchResource {
                            @PathParam("value") String value,
                            @QueryParam("token") String token) {
 
-        if (userController.isLogged(new Token(token))) {
+	    Token _token = new Token(token);
 
-            // TODO: Index as PathParam
-            Collection<Torrent> torrents = searchController.search(mirror, value, 0);
+	    if (isLogged(_token)) {
 
-            if (torrents == null || torrents.isEmpty()) {
-                return Response.ok(new SResponse("ok", null).toJSON()).build();
-            } else {
-                return Response.ok()
-                        .entity(new SResponse("ok", new JSONLightTorrents(torrents.stream().map(JSONLightTorrent::new).collect(Collectors.toList()))).toJSON())
-                        .build();
-            }
+	    	Collection<Torrent> torrents = searchController.search(mirror, value, 0);
+
+		    JSONable data = null;
+
+	        if (torrents != null && !torrents.isEmpty()) {
+	            data = new JSONLightTorrents(torrents.stream().map(JSONLightTorrent::new).collect(Collectors.toList()));
+	        }
+
+	        try {
+		        userController.registerSearch(_token, value);
+	        } catch (IllegalStateException ignored) {}
+
+	        return Response.ok(new SResponse("ok", data).toJSON()).build();
         }
 
         return Response.ok(new SResponse("error", new JSONError(2, "Error searching torrents of " + mirror + " with value of " + value)).toJSON()).build();
     }
+
+	@POST
+	@Path("{mirror}/retrieveLink")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response retrieveLink(@PathParam("mirror") String mirror,
+	                       @FormParam("link") String link,
+	                       @FormParam("token") String token) {
+
+		if (isLogged(new Token(token))) {
+			return Response.ok(new SResponse("ok", searchController.retrieveLink(link, mirror)).toJSON()).build();
+		}
+
+		return Response.ok(new SResponse("error", new JSONError(3, "Error retrieving link of " + mirror)).toJSON()).build();
+	}
+
+	private boolean isLogged(Token _token) {
+		return userController.isLogged(_token);
+	}
 }

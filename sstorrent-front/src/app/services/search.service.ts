@@ -24,4 +24,9 @@ export class SearchService {
     return this.http.get(url, {headers: this.basicHeader}).toPromise();
   }
 
+  public retrieveLink(link, mirror, token) : Promise<any> {
+    let url : string = `${environment.base_url}/search/${mirror}/retrieveLink`;
+    return this.http.post(url, `link=${link}&token=${token}`,  {headers: this.formHeader}).toPromise();
+  }
+
 }

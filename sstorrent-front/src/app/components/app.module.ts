@@ -18,13 +18,18 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { SearchComponent } from './search/search.component';
+import { TorrentModalComponent } from './torrent-modal/torrent-modal.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     HomeComponent,
-    SearchComponent
+    SearchComponent,
+    TorrentModalComponent
+  ],
+  entryComponents: [
+    TorrentModalComponent
   ],
   imports: [
     LoadingModule,
@@ -47,6 +52,11 @@ import { SearchComponent } from './search/search.component';
     },
     {
       path: 'search',
+      component: SearchComponent,
+      canActivate: [AuthGuardService]
+    },
+    {
+      path: 'search/:value',
       component: SearchComponent,
       canActivate: [AuthGuardService]
     }

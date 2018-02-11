@@ -4,21 +4,27 @@ import { OnInit } from "@angular/core/core";
 
 // Models
 import { User } from "../../models/user";
+import { NgbModal } from "@ng-bootstrap/ng-bootstrap";
 
 export class BaseComponent implements OnInit {
   protected static toastr : ToastrService;
   protected static router : Router;
+  protected static modalService : NgbModal;
   protected static currentUser : User = null;
   public static loading : boolean = false;
 
 
-  constructor(protected toastr?: ToastrService, protected router?: Router) {
+  constructor(protected toastr?: ToastrService, protected router?: Router, protected modalService? : NgbModal) {
     if (BaseComponent.toastr == null) {
       BaseComponent.toastr = toastr;
     }
 
     if (BaseComponent.router == null) {
       BaseComponent.router = router;
+    }
+
+    if (BaseComponent.modalService == null) {
+      BaseComponent.modalService = modalService;
     }
 
     if (BaseComponent.currentUser == null && localStorage.getItem("user")) {
@@ -60,6 +66,10 @@ export class BaseComponent implements OnInit {
 
   public currentUser() {
     return BaseComponent.currentUser;
+  }
+
+  public openModal(component) {
+    return BaseComponent.modalService.open(component);
   }
 
   // Validators

@@ -5,6 +5,7 @@ import com.jeseromero.model.lightweight.JSONLightUser;
 import com.jeseromero.persistence.DBSessionFactory;
 import com.jeseromero.util.SLogger;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -115,5 +116,27 @@ public class UserController {
 
     public boolean isLogged(Token token) {
         return tokens.get(token) != null;
+    }
+
+    public void registerSearch(Token token, String value) throws IllegalStateException {
+
+	    User user = tokens.get(token);
+
+	    Session session = DBSessionFactory.instance().openSession();
+
+	    try {
+		    Transaction transaction = session.beginTransaction();
+		    session.save(new Search(user, value));
+		    transaction.commit();
+
+		    user.refresh();
+	    } catch (Exception e) {
+	    	logger.error(e);
+
+	    	throw new IllegalStateException("Error registering the search", e);
+	    } finally {
+	    	session.close();
+	    }
+
     }
 }

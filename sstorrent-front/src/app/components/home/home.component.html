@@ -1,16 +1,16 @@
 <div class="container">
-  <table class="table" *ngIf="searches != null && searches.length > 0">
+  <table class="table table-bordered" *ngIf="searches != null && searches.length > 0">
     <thead class="thead-inverse">
       <tr>
-        <th>Search</th>
+        <th>Your latest searches</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let search of searches">
-        <td><a [routerLink]="['/search', search]">search</a></td>
+        <td><a [routerLink]="['/search', search]">{{search}}</a></td>
       </tr>
     </tbody>
   </table>
 
-  <h3 class="text-center">You don't have searches, make <a [routerLink]="['/search']">one</a>.</h3>
+  <h3 class="text-center" *ngIf="searches == null || searches.length == 0">You don't have searches, make <a [routerLink]="['/search']">one</a>.</h3>
 </div>
