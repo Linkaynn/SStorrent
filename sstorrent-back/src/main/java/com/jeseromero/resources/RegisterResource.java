@@ -1,9 +1,7 @@
 package com.jeseromero.resources;
 
-import com.jeseromero.controller.UserController;
 import com.jeseromero.model.Request;
 import com.jeseromero.model.lightweight.JSONError;
-import com.jeseromero.model.lightweight.JSONLightUser;
 import com.jeseromero.model.lightweight.SResponse;
 import com.jeseromero.persistence.DBSessionFactory;
 import com.jeseromero.util.SLogger;
@@ -31,7 +29,7 @@ public class RegisterResource {
 
 		    Request request = new Request(username, name, email, message);
 
-		    Session session = DBSessionFactory.instance().openSession();
+		    Session session = DBSessionFactory.openSession();
 
 		    try {
 			    Transaction transaction = session.beginTransaction();
@@ -41,9 +39,6 @@ public class RegisterResource {
 		    }catch (Exception ex) {
 		    	ex.printStackTrace();
 		    	return Response.ok(new SResponse("error", new JSONError(5, "Error making the request")).toJSON()).build();
-		    }finally {
-
-		    	session.close();
 		    }
 
 	    }

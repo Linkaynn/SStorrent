@@ -1,8 +1,11 @@
 package com.jeseromero.persistence;
 
 import com.jeseromero.util.SLogger;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+
+import java.util.ArrayList;
 
 public class DBSessionFactory {
 
@@ -10,15 +13,19 @@ public class DBSessionFactory {
 
     private static SessionFactory sessionFactory;
 
-    public static SessionFactory instance() {
+    public static Session openSession() {
         if (sessionFactory == null) {
-            createSession();
+            createSessionFactory();
         }
 
-        return sessionFactory;
+        Session newSession = sessionFactory.openSession();
+
+        new Thread(new SessionCloser(newSession)).start();
+
+        return newSession;
     }
 
-    private static void createSession() {
+    private static void createSessionFactory() {
         try {
 
             sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();

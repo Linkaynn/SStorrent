@@ -58,21 +58,17 @@ public class SearchController {
 	}
 
 	private String getCollapsedName(String mirror) {
-		Session session = DBSessionFactory.instance().openSession();
+		Session session = DBSessionFactory.openSession();
 
-		try {
-			Query query = session.createQuery(String.format("SELECT collapsedName FROM Mirror WHERE name = '%s'", mirror));
+		Query query = session.createQuery(String.format("SELECT collapsedName FROM Mirror WHERE name = '%s'", mirror));
 
-			return (String) query.list().get(0);
-		} finally {
-			session.close();
-		}
+		return (String) query.list().get(0);
 	}
 
 	public Set<Mirror> getMirrors(String[] _mirrors) {
 		Set<Mirror> mirrors = new HashSet<>();
 
-		Session session = DBSessionFactory.instance().openSession();
+		Session session = DBSessionFactory.openSession();
 
 		List<Mirror> allMirrors = session.createQuery("from Mirror").list();
 
@@ -90,7 +86,7 @@ public class SearchController {
 	}
 
 	public Set<Mirror> getAllMirrors() {
-		Session session = DBSessionFactory.instance().openSession();
+		Session session = DBSessionFactory.openSession();
 
 		Set<Mirror> mirrors = new HashSet<>();
 

@@ -1,6 +1,5 @@
 package com.jeseromero.resources;
 
-import com.google.gson.Gson;
 import com.jeseromero.controller.UserController;
 import com.jeseromero.model.Request;
 import com.jeseromero.model.lightweight.JSONError;
@@ -36,7 +35,7 @@ public class LoginResource {
 	    	return Response.ok(new SResponse("error", new JSONError(0, "Username or password is wrong")).toJSON()).build();
 	    }
 
-	    Session session = DBSessionFactory.instance().openSession();
+	    Session session = DBSessionFactory.openSession();
 
 	    try {
 		    List<Request> requests = session.createQuery("from Request where username = '" + jsonLightUser.getUsername() + "' ").list();
@@ -48,8 +47,6 @@ public class LoginResource {
 		    transaction.commit();
 	    } catch (Exception ignored) {
 	    	ignored.printStackTrace();
-	    }finally {
-		    session.close();
 	    }
 
 	    logger.info("User logged: " + jsonLightUser.getName());

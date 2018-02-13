@@ -2,8 +2,6 @@ package com.jeseromero.resources;
 
 import com.jeseromero.controller.SearchController;
 import com.jeseromero.controller.UserController;
-import com.jeseromero.core.controller.ConfigurationController;
-import com.jeseromero.core.model.Configuration;
 import com.jeseromero.model.*;
 import com.jeseromero.model.lightweight.*;
 import com.jeseromero.persistence.DBSessionFactory;
@@ -30,7 +28,7 @@ public class UserResources {
 	public Response getRequests(@PathParam("token") String token) {
 
 		if (userController.isLogged(new Token(token))) {
-			Session session = DBSessionFactory.instance().openSession();
+			Session session = DBSessionFactory.openSession();
 
 			List<Request> requests;
 
@@ -39,8 +37,6 @@ public class UserResources {
 			} catch (Exception e) {
 				e.printStackTrace();
 				return Response.ok(new SResponse("error", new JSONError(8, "Error getting the requests")).toJSON()).build();
-			} finally {
-				session.close();
 			}
 
 			return Response.ok()
@@ -58,7 +54,7 @@ public class UserResources {
 	public Response rejectRequest(@PathParam("token") String token, @FormParam("requestId") int requestId) {
 
 		if (userController.isLogged(new Token(token))) {
-			Session session = DBSessionFactory.instance().openSession();
+			Session session = DBSessionFactory.openSession();
 
 			Request request;
 
@@ -72,8 +68,6 @@ public class UserResources {
 			} catch (Exception e) {
 				e.printStackTrace();
 				return Response.ok(new SResponse("error", new JSONError(9, "Error rejecting the request")).toJSON()).build();
-			} finally {
-				session.close();
 			}
 
 			return Response.ok()
@@ -91,7 +85,7 @@ public class UserResources {
 	public Response acceptRequest(@PathParam("token") String token, @FormParam("requestId") int requestId) {
 
 		if (userController.isLogged(new Token(token))) {
-			Session session = DBSessionFactory.instance().openSession();
+			Session session = DBSessionFactory.openSession();
 
 			Request request;
 
@@ -109,8 +103,6 @@ public class UserResources {
 			} catch (Exception e) {
 				e.printStackTrace();
 				return Response.ok(new SResponse("error", new JSONError(11, "Error accepting the request")).toJSON()).build();
-			} finally {
-				session.close();
 			}
 
 			return Response.ok()
@@ -157,7 +149,7 @@ public class UserResources {
     @Path("retrieveAllMirrors")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllMirrors(@PathParam("token") String token) {
-	    List<Mirror> allMirrors = DBSessionFactory.instance().openSession().createQuery("from Mirror").list();
+	    List<Mirror> allMirrors = DBSessionFactory.openSession().createQuery("from Mirror").list();
 
 	    List<String> mirrors = allMirrors.stream().map(Mirror::getName).collect(Collectors.toList());
 

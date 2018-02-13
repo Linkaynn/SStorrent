@@ -34,19 +34,15 @@ public class UserController {
     }
 
     public boolean exist(int userID) {
-        Session session = DBSessionFactory.instance().openSession();
+        Session session = DBSessionFactory.openSession();
 
-        try {
-            return session.get(User.class, userID) != null;
-        } finally {
-            session.close();
-        }
+	    return session.get(User.class, userID) != null;
     }
 
     public JSONLightUser login(String username, String password) {
         logger.debug("Logging: " + username);
 
-        Session session = DBSessionFactory.instance().openSession();
+        Session session = DBSessionFactory.openSession();
 
         try {
 
@@ -74,8 +70,6 @@ public class UserController {
             logger.debug("User not found");
 
             return null;
-        } finally {
-            session.close();
         }
     }
 
@@ -124,7 +118,7 @@ public class UserController {
 
 	    User user = tokens.get(token);
 
-	    Session session = DBSessionFactory.instance().openSession();
+	    Session session = DBSessionFactory.openSession();
 
 	    try {
 		    Transaction transaction = session.beginTransaction();
@@ -136,8 +130,6 @@ public class UserController {
 	    	logger.error(e);
 
 	    	throw new IllegalStateException("Error registering the search", e);
-	    } finally {
-	    	session.close();
 	    }
 
     }
@@ -149,7 +141,7 @@ public class UserController {
 
 		user.setMirrors(searchController.getMirrors(mirrors));
 
-		Session currentSession = DBSessionFactory.instance().getCurrentSession();
+		Session currentSession = DBSessionFactory.openSession();
 
 		Transaction transaction = currentSession.beginTransaction();
 		currentSession.merge(user);
@@ -161,7 +153,7 @@ public class UserController {
 
 		user.setPassword(newPassword);
 
-		Session currentSession = DBSessionFactory.instance().getCurrentSession();
+		Session currentSession = DBSessionFactory.openSession();
 
 		Transaction transaction = currentSession.beginTransaction();
 		currentSession.merge(user);
