@@ -13,6 +13,11 @@
     </repositories>
     <dependencies>
         <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>6.0</version>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-api</artifactId>
             <version>8.0</version>
@@ -43,6 +48,11 @@
             <artifactId>jersey-bundle</artifactId>
             <version>1.18.3</version>
         </dependency>
+        <dependency>
+            <groupId>com.sun.jersey</groupId>
+            <artifactId>jersey-servlet</artifactId>
+            <version>1.18.2</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>sstorrent</finalName>
@@ -60,6 +70,6 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <failOnMissingWebXml>false</failOnMissingWebXml>
+        <failOnMissingWebXml>true</failOnMissingWebXml>
     </properties>
 </project>
