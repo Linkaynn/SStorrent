@@ -5,6 +5,7 @@ import com.jeseromero.controller.UserController;
 import com.jeseromero.core.model.Torrent;
 import com.jeseromero.model.Token;
 import com.jeseromero.model.lightweight.*;
+import com.jeseromero.resources.responses.SResponse;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -33,7 +34,7 @@ public class SearchResource {
 
 	    	Collection<Torrent> torrents = searchController.search(mirror, value, 0);
 
-		    JSONable data = null;
+		    JSONLightTorrents data = new JSONLightTorrents();
 
 	        if (torrents != null && !torrents.isEmpty()) {
 	            data = new JSONLightTorrents(torrents.stream().map(JSONLightTorrent::new).collect(Collectors.toList()));
@@ -46,7 +47,7 @@ public class SearchResource {
 	        return Response.ok(new SResponse("ok", data).toJSON()).build();
         }
 
-        return Response.ok(new SResponse("error", new JSONError(2, "Error searching torrents of " + mirror + " with value of " + value)).toJSON()).build();
+        return Response.ok(new SResponse("error", new JSONLightError(2, "Error searching torrents of " + mirror + " with value of " + value)).toJSON()).build();
     }
 
 	@POST
@@ -60,7 +61,7 @@ public class SearchResource {
 			return Response.ok(new SResponse("ok", searchController.retrieveLink(link, mirror)).toJSON()).build();
 		}
 
-		return Response.ok(new SResponse("error", new JSONError(3, "Error retrieving link of " + mirror)).toJSON()).build();
+		return Response.ok(new SResponse("error", new JSONLightError(3, "Error retrieving link of " + mirror)).toJSON()).build();
 	}
 
 	private boolean isLogged(Token _token) {

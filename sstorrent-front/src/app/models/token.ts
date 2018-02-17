@@ -4,7 +4,7 @@ export class Token {
 
   constructor(token: string, expires: number) {
     this.token = token;
-    this.expires = expires;
+    this.expires = expires + new Date().getTime();
   }
 
   public hasExpired() : boolean {

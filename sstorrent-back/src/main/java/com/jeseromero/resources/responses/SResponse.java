@@ -1,6 +1,8 @@
-package com.jeseromero.model.lightweight;
+package com.jeseromero.resources.responses;
 
-public class SResponse extends JSONable{
+import com.jeseromero.model.lightweight.JSONable;
+
+public class SResponse extends JSONable {
 	private String status;
 	private Object data;
 

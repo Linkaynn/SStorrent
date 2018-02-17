@@ -5,6 +5,7 @@ import com.jeseromero.controller.UserController;
 import com.jeseromero.model.*;
 import com.jeseromero.model.lightweight.*;
 import com.jeseromero.persistence.DBSessionFactory;
+import com.jeseromero.resources.responses.SResponse;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -36,7 +37,7 @@ public class UserResources {
 				requests = session.createQuery("from Request").list();
 			} catch (Exception e) {
 				e.printStackTrace();
-				return Response.ok(new SResponse("error", new JSONError(8, "Error getting the requests")).toJSON()).build();
+				return Response.ok(new SResponse("error", new JSONLightError(8, "Error getting the requests")).toJSON()).build();
 			}
 
 			return Response.ok()
@@ -45,7 +46,7 @@ public class UserResources {
 
 		}
 
-		return Response.ok(new SResponse("error", new JSONError(7, "Error getting the requests")).toJSON()).build();
+		return Response.ok(new SResponse("error", new JSONLightError(7, "Error getting the requests")).toJSON()).build();
 	}
 
 	@POST
@@ -67,7 +68,7 @@ public class UserResources {
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				return Response.ok(new SResponse("error", new JSONError(9, "Error rejecting the request")).toJSON()).build();
+				return Response.ok(new SResponse("error", new JSONLightError(9, "Error rejecting the request")).toJSON()).build();
 			}
 
 			return Response.ok()
@@ -76,7 +77,7 @@ public class UserResources {
 
 		}
 
-		return Response.ok(new SResponse("error", new JSONError(10, "Error rejecting the request")).toJSON()).build();
+		return Response.ok(new SResponse("error", new JSONLightError(10, "Error rejecting the request")).toJSON()).build();
 	}
 
 	@POST
@@ -102,7 +103,7 @@ public class UserResources {
 
 			} catch (Exception e) {
 				e.printStackTrace();
-				return Response.ok(new SResponse("error", new JSONError(11, "Error accepting the request")).toJSON()).build();
+				return Response.ok(new SResponse("error", new JSONLightError(11, "Error accepting the request")).toJSON()).build();
 			}
 
 			return Response.ok()
@@ -111,7 +112,7 @@ public class UserResources {
 
 		}
 
-		return Response.ok(new SResponse("error", new JSONError(12, "Error accepting the request")).toJSON()).build();
+		return Response.ok(new SResponse("error", new JSONLightError(12, "Error accepting the request")).toJSON()).build();
 	}
 
     @GET
@@ -126,7 +127,7 @@ public class UserResources {
                     .build();
         }
 
-        return Response.ok(new SResponse("error", new JSONError(1, "Error retrieving profile, user do not exist")).toJSON()).build();
+        return Response.ok(new SResponse("error", new JSONLightError(1, "Error retrieving profile, user do not exist")).toJSON()).build();
     }
 
     @GET
@@ -137,11 +138,11 @@ public class UserResources {
 
         if (mirrors != null) {
             return Response.ok()
-                    .entity(new SResponse("ok", new LightMirrors(mirrors)).toJSON())
+                    .entity(new SResponse("ok", new JSONLightMirrors(mirrors)).toJSON())
                     .build();
         }
 
-        return Response.ok(new SResponse("error", new JSONError(3, "Error retrieving the mirrors")).toJSON()).build();
+        return Response.ok(new SResponse("error", new JSONLightError(3, "Error retrieving the mirrors")).toJSON()).build();
     }
 
 
@@ -155,11 +156,11 @@ public class UserResources {
 
         if (mirrors != null) {
             return Response.ok()
-                    .entity(new SResponse("ok", new LightMirrors(mirrors)).toJSON())
+                    .entity(new SResponse("ok", new JSONLightMirrors(mirrors)).toJSON())
                     .build();
         }
 
-        return Response.ok(new SResponse("error", new JSONError(3, "Error retrieving the mirrors")).toJSON()).build();
+        return Response.ok(new SResponse("error", new JSONLightError(3, "Error retrieving the mirrors")).toJSON()).build();
     }
 
 	@POST
@@ -184,7 +185,7 @@ public class UserResources {
 		} catch (Exception e) {
 			e.printStackTrace();
 
-			return Response.ok(new SResponse("error", new JSONError(4, "Error updating the profile")).toJSON()).build();
+			return Response.ok(new SResponse("error", new JSONLightError(4, "Error updating the profile")).toJSON()).build();
 		}
 
 		return Response.ok(new SResponse("ok").toJSON()).build();

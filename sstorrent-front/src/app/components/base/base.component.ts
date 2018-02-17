@@ -116,7 +116,5 @@ export class BaseComponent implements OnInit {
     return BaseComponent.loading;
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 }

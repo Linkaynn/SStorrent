@@ -1,8 +1,8 @@
 package com.jeseromero.resources;
 
 import com.jeseromero.model.Request;
-import com.jeseromero.model.lightweight.JSONError;
-import com.jeseromero.model.lightweight.SResponse;
+import com.jeseromero.model.lightweight.JSONLightError;
+import com.jeseromero.resources.responses.SResponse;
 import com.jeseromero.persistence.DBSessionFactory;
 import com.jeseromero.util.SLogger;
 import org.hibernate.Session;
@@ -38,11 +38,11 @@ public class RegisterResource {
 			    return Response.ok(new SResponse("ok").toJSON()).build();
 		    }catch (Exception ex) {
 		    	ex.printStackTrace();
-		    	return Response.ok(new SResponse("error", new JSONError(5, "Error making the request")).toJSON()).build();
+		    	return Response.ok(new SResponse("error", new JSONLightError(5, "Error making the request")).toJSON()).build();
 		    }
 
 	    }
-	    return Response.ok(new SResponse("error", new JSONError(6, "Some fields are null")).toJSON()).build();
+	    return Response.ok(new SResponse("error", new JSONLightError(6, "Some fields are null")).toJSON()).build();
 
     }
 }

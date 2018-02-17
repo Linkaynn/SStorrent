@@ -31,7 +31,7 @@ public class SearchController {
     public Collection<Torrent> search(String mirror, String value, int index) {
 	    Configuration mirrorConfig = getConfiguration(mirror);
 
-	    if (mirrorConfig == null) return null;
+	    if (mirrorConfig == null) return new ArrayList<>();
 
         return new TorrentSearcher(mirrorConfig).search(value, index);
     }

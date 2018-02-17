@@ -71,12 +71,7 @@ export class SearchComponent extends BaseComponent {
         let json = response.json();
 
         if (json.status == "error" || !json.data) {
-          if (this.currentUser().token.hasExpired()) {
-            this.logout();
-            this.error("Your session expired.")
-          } else {
-            this.error(`Error searching ${this.value}, try again later.`)
-          }
+          this.error(`Error searching ${this.value}, try again later.`)
         } else {
           if (json.data.lightTorrents) {
             this.torrents = json.data.lightTorrents;

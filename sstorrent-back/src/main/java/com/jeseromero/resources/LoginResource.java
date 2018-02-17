@@ -2,9 +2,9 @@ package com.jeseromero.resources;
 
 import com.jeseromero.controller.UserController;
 import com.jeseromero.model.Request;
-import com.jeseromero.model.lightweight.JSONError;
+import com.jeseromero.model.lightweight.JSONLightError;
 import com.jeseromero.model.lightweight.JSONLightUser;
-import com.jeseromero.model.lightweight.SResponse;
+import com.jeseromero.resources.responses.SResponse;
 import com.jeseromero.persistence.DBSessionFactory;
 import com.jeseromero.util.SLogger;
 import org.hibernate.Session;
@@ -32,7 +32,7 @@ public class LoginResource {
         JSONLightUser jsonLightUser = userController.login(username, password);
 
 	    if (jsonLightUser == null) {
-	    	return Response.ok(new SResponse("error", new JSONError(0, "Username or password is wrong")).toJSON()).build();
+	    	return Response.ok(new SResponse("error", new JSONLightError(0, "Username or password is wrong")).toJSON()).build();
 	    }
 
 	    Session session = DBSessionFactory.openSession();
