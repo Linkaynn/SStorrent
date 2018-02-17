@@ -13,10 +13,14 @@ public class DBSessionFactory {
 
     private static SessionFactory sessionFactory;
 
+	static {
+		createSessionFactory();
+	}
+
     public static Session openSession() {
-        if (sessionFactory == null) {
-            createSessionFactory();
-        }
+	    if (sessionFactory == null) {
+		    createSessionFactory();
+	    }
 
         Session newSession = sessionFactory.openSession();
 
@@ -28,7 +32,11 @@ public class DBSessionFactory {
     private static void createSessionFactory() {
         try {
 
-            sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
+            Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
+            configuration.setProperty("hibernate.connection.username", System.getenv("DATABASE_USER"));
+            configuration.setProperty("hibernate.connection.password", System.getenv("DATABASE_PASSWORD"));
+
+            sessionFactory = configuration.buildSessionFactory();
 
         } catch (Exception e) {
             logger.error(e);
