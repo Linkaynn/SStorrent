@@ -56,6 +56,10 @@ export class BaseComponent implements OnInit {
     BaseComponent.toastr.success('', message);
   }
 
+  public warning(message) {
+    BaseComponent.toastr.warning('', message);
+  }
+
   public navigateTo(url) {
     BaseComponent.router.navigateByUrl(url);
   }
@@ -116,7 +120,5 @@ export class BaseComponent implements OnInit {
     return BaseComponent.loading;
   }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() {}
 }

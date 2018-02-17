@@ -159,4 +159,8 @@ public class UserController {
 		currentSession.merge(user);
 		transaction.commit();
 	}
+
+	public User getUserIfExist(Token token) {
+    	return tokens.get(token);
+	}
 }

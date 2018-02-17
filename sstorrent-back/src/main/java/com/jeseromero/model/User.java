@@ -143,4 +143,8 @@ public class User implements Serializable{
     public void addSearch(Search search) {
         searches.add(search);
     }
+
+    public boolean isAdmin() {
+        return username.equals("root");
+    }
 }

@@ -11,14 +11,13 @@ public class Token {
     private final String token;
     private final long expires;
 
-    public Token() {
-        token = new RandomString().nextString();
-        expires = System.currentTimeMillis() + DEFAULT_TOKEN_EXPIRE_IN_MILIS;
-    }
-
 	public Token(String token) {
 		this.token = token;
-		expires = System.currentTimeMillis();
+		expires = DEFAULT_TOKEN_EXPIRE_IN_MILIS;
+	}
+
+	public Token() {
+		this(new RandomString().nextString());
 	}
 
 	public String getToken() {

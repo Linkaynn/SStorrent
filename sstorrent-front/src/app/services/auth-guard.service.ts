@@ -11,6 +11,9 @@ export class AuthGuardService extends BaseComponent implements CanActivate {
 
   canActivate(): boolean {
     if (!this.isLogged() || this.currentUser().token.hasExpired()) {
+      if (this.currentUser().token.hasExpired()) {
+        this.error("Your session has expired. Please login again.")
+      }
       this.logout();
       this.navigateTo('/');
       return false;

@@ -18,4 +18,8 @@ export class User {
   public setMirrors(mirrors) {
     this.mirrors = mirrors;
   }
+
+  public isAdmin() {
+    return this.username == 'root';
+  }
 }

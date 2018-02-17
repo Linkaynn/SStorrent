@@ -12,7 +12,7 @@ import { LoadingModule } from 'ngx-loading';
 import { UserService } from '../services/user.service';
 import { AuthGuardService } from '../services/auth-guard.service';
 import { SearchService } from '../services/search.service';
-import { RequestService } from '../services/request.service';
+import { AdminService } from '../services/admin.service';
 
 // Components
 import { AppComponent } from './app.component';
@@ -24,6 +24,7 @@ import { PreferencesComponent } from './preferences/preferences.component';
 import { HelpComponent } from './help/help.component';
 import { RegisterComponent } from './register/register.component';
 import { RequestsComponent } from './requests/requests.component';
+import { LogComponent } from './log/log.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { RequestsComponent } from './requests/requests.component';
     PreferencesComponent,
     HelpComponent,
     RegisterComponent,
-    RequestsComponent
+    RequestsComponent,
+    LogComponent
   ],
   entryComponents: [
     TorrentModalComponent
@@ -83,6 +85,10 @@ import { RequestsComponent } from './requests/requests.component';
       component: RequestsComponent
     },
     {
+      path: 'logs',
+      component: LogComponent
+    },
+    {
       path: 'search/:value',
       component: SearchComponent,
       canActivate: [AuthGuardService]
@@ -92,7 +98,7 @@ import { RequestsComponent } from './requests/requests.component';
   providers: [
     UserService,
     SearchService,
-    RequestService,
+    AdminService,
     AuthGuardService
   ],
   bootstrap: [AppComponent]

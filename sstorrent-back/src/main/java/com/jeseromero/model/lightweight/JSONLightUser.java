@@ -15,7 +15,6 @@ public class JSONLightUser extends JSONable{
         this.username = user.getUsername();
         this.name = user.getName();
         this.email = user.getEmail();
-
         this.token = token;
     }
 
@@ -25,13 +24,5 @@ public class JSONLightUser extends JSONable{
 
 	public String getName() {
         return name;
-    }
-
-    public Token getToken() {
-        return token;
-    }
-
-    public String getEmail() {
-        return email;
     }
 }
