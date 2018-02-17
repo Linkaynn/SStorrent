@@ -18,8 +18,11 @@
         <li class="nav-item" [routerLinkActive]="['active']">
           <a class="nav-link" [routerLink]="['/help']" (click)="navbarCollapsed = true">Help</a>
         </li>
-        <li class="nav-item" [routerLinkActive]="['active']" *ngIf="currentUser().username == 'root'">
+        <li class="nav-item" [routerLinkActive]="['active']" *ngIf="currentUser().isAdmin()">
           <a class="nav-link" [routerLink]="['/requests']" (click)="navbarCollapsed = true">Requests</a>
+        </li>
+        <li class="nav-item" [routerLinkActive]="['active']" *ngIf="currentUser().isAdmin()">
+          <a class="nav-link" [routerLink]="['/logs']" (click)="navbarCollapsed = true">Logs</a>
         </li>
         <li class="nav-item">
           <a class="nav-link red" [routerLink]="['/']" (click)="logout()">Logout</a>

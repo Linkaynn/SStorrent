@@ -1,0 +1,23 @@
+<div class="container">
+  <h3 class="text-center bold brand-color margin-bottom-10">Requests</h3>
+
+  <table class="table table-bordered" *ngIf="logs != null && logs.length > 0; else noLogs">
+    <thead class="thead-inverse">
+      <tr>
+        <th>Message</th>
+        <th>Username</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let log of logs">
+        <td><a>{{log.message}}</a></td>
+        <td><a>{{log.username}}</a></td>
+        <td><a>{{log.date}}</a></td>
+      </tr>
+    </tbody>
+  </table>
+  <ng-template #noLogs>
+    <h4 class="text-center">You don't have logs</h4>
+  </ng-template>
+</div>

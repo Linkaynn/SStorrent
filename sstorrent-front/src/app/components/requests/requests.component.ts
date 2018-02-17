@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
-import { RequestService } from '../../services/request.service';
+import { AdminService } from '../../services/admin.service';
 
 @Component({
   selector: 'app-requests',
@@ -11,11 +11,11 @@ export class RequestsComponent extends BaseComponent {
 
   requests : any[];
 
-  constructor(private requestService : RequestService) {
+  constructor(private adminService : AdminService) {
     super();
 
     this.startLoading();
-    this.requestService.getRequests(this.currentUser().token.token).then((response) => {
+    this.adminService.getRequests(this.currentUser().token.token).then((response) => {
       this.stopLoading();
 
       let json = response.json();
@@ -35,7 +35,7 @@ export class RequestsComponent extends BaseComponent {
 
   reject(request) {
     this.startLoading();
-    this.requestService.rejectRequest(request, this.currentUser().token.token).then((response) => {
+    this.adminService.rejectRequest(request, this.currentUser().token.token).then((response) => {
       this.stopLoading();
 
       let json = response.json();
@@ -59,7 +59,7 @@ export class RequestsComponent extends BaseComponent {
 
   accept(request) {
     this.startLoading();
-    this.requestService.acceptRequest(request, this.currentUser().token.token).then((response) => {
+    this.adminService.acceptRequest(request, this.currentUser().token.token).then((response) => {
       this.stopLoading();
 
       let json = response.json();
@@ -75,7 +75,4 @@ export class RequestsComponent extends BaseComponent {
       this.error("Internal. An error happend accepting de requests.")
     })
   }
-
-
-
 }

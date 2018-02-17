@@ -13,6 +13,7 @@ public class SSTorrent extends Application {
 
 		Set<Class<?>> s = new HashSet<>();
 		s.add(LoginResource.class);
+		s.add(LogResource.class);
 		s.add(RegisterResource.class);
 		s.add(UserResources.class);
 		s.add(SearchResource.class);

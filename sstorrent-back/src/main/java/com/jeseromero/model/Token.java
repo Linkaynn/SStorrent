@@ -6,7 +6,7 @@ import java.util.Objects;
 
 public class Token {
 
-    private static final int DEFAULT_TOKEN_EXPIRE_IN_MILIS = 15 * 1000;
+    private static final int DEFAULT_TOKEN_EXPIRE_IN_MILIS = 30 * 60 * 1000;
 
     private final String token;
     private final long expires;

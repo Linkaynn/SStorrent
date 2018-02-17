@@ -3,7 +3,7 @@ import { Headers, Http } from '@angular/http';
 import { environment } from '../../environments/environment';
 
 @Injectable()
-export class RequestService {
+export class AdminService {
 
   private formHeader: Headers = new Headers(
     {
@@ -32,6 +32,11 @@ export class RequestService {
   public acceptRequest(request, token) : Promise<any> {
     let url : string = `${environment.base_url}/${token}/acceptRequest`;
     return this.http.post(url, `requestId=${request.id}`, {headers: this.formHeader}).toPromise();
+  }
+
+  public getLogs(token) : Promise<any> {
+    let url : string = `${environment.base_url}/log/${token}`;
+    return this.http.get(url, {headers: this.basicHeader}).toPromise();
   }
 
 }
