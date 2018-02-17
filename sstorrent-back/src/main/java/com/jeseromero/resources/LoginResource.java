@@ -50,6 +50,7 @@ public class LoginResource {
 	    }
 
 	    logger.info("User logged: " + jsonLightUser.getName());
+	    logger.registerLog(jsonLightUser.getUsername(), "Log in");
 
 	    return Response.ok().entity(new SResponse("ok", jsonLightUser).toJSON()).build();
 

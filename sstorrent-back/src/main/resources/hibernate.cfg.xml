@@ -12,6 +12,7 @@
 
         <mapping class="com.jeseromero.model.Mirror"/>
         <mapping class="com.jeseromero.model.Search"/>
+        <mapping class="com.jeseromero.model.Log"/>
         <mapping class="com.jeseromero.model.User"/>
         <mapping class="com.jeseromero.model.Request"/>
 
