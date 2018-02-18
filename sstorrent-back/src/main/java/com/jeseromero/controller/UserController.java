@@ -67,6 +67,8 @@ public class UserController {
                 logger.error(e);
             }
 
+            logger.registerLog(username, "Try to login");
+            
             logger.debug("User not found");
 
             return null;
