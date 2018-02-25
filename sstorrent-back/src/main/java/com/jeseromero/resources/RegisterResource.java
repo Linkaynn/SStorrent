@@ -29,7 +29,7 @@ public class RegisterResource {
 
 		    Request request = new Request(username, name, email, message);
 
-		    Session session = DBSessionFactory.openSession();
+		    Session session = DBSessionFactory.getSession();
 
 		    try {
 			    Transaction transaction = session.beginTransaction();

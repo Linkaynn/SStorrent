@@ -1,7 +1,9 @@
 package com.jeseromero;
 
+import com.jeseromero.controller.MirrorController;
 import com.jeseromero.core.controller.ConfigurationController;
 import com.jeseromero.core.model.Configuration;
+import com.jeseromero.model.Mirror;
 import com.jeseromero.resources.*;
 import com.jeseromero.util.SLogger;
 
@@ -16,6 +18,8 @@ public class SSTorrent extends Application {
 
 	private static final SLogger logger = new SLogger(SSTorrent.class.getName());
 
+	private static MirrorController mirrorController = MirrorController.instance();
+
 	public SSTorrent() {
 		super();
 	}
@@ -25,9 +29,7 @@ public class SSTorrent extends Application {
 	 */
 	@PostConstruct
 	public static void initialize() {
-		for (Configuration configuration : new ConfigurationController().allConfigurations()) {
-
-		}
+		mirrorController.checkExistenceOfAllMirrors();
 	}
 
 	public Set<Class<?>> getClasses() {

@@ -46,7 +46,7 @@ public class SearchController {
 
 	public void registerSearch(User user, String value) throws IllegalStateException {
 
-		Session session = DBSessionFactory.openSession();
+		Session session = DBSessionFactory.getSession();
 
 		try {
 			Transaction transaction = session.beginTransaction();

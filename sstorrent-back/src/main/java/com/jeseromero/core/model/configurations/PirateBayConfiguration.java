@@ -18,6 +18,7 @@ public class PirateBayConfiguration extends Configuration {
         rowSelector = "#searchResult tr";
         magnetSelector = "a[title=\"Get this torrent\"]";
 	    directDownloadSelector = "";
+	    working = true;
     }
 
 	@Override

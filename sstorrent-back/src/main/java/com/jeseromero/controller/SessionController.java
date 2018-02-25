@@ -24,13 +24,15 @@ public class SessionController {
 
 	public JSONLightUser login(String username, String password) {
 
-		Session session = DBSessionFactory.openSession();
+		Session session = DBSessionFactory.getSession();
 
 		try {
 
 			Query<User> query = session.createQuery("FROM User WHERE username='" + username + "' AND password='" + password + "'", User.class);
 
 			User user = query.uniqueResult();
+
+			if (user == null) return null;
 
 			Token token = new Token();
 
@@ -49,7 +51,7 @@ public class SessionController {
 
 	public void logout(User user) {
 		user.setToken(null);
-		user.save(DBSessionFactory.openSession());
+		user.save(DBSessionFactory.getSession());
 	}
 
 	/**
@@ -58,7 +60,7 @@ public class SessionController {
 	 * @return
 	 */
 	public User getUser(String token) {
-		Session session = DBSessionFactory.openSession();
+		Session session = DBSessionFactory.getSession();
 
 		try {
 

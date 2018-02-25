@@ -21,7 +21,7 @@ export class LogComponent extends BaseComponent {
       let json = response.json();
 
       if (json.status == "error") {
-        this.error("An error happend retrieving de logs.")
+        this.error("An error happen retrieving de logs.")
       } else {
         this.logs = json.data.logs;
       }
@@ -29,7 +29,7 @@ export class LogComponent extends BaseComponent {
     }).catch((err) => {
       this.stopLoading();
       console.error(err);
-      this.error("Internal. An error happend retrieving de logs.")
+      this.error("Internal. An error happen retrieving de logs.")
     })
   }
 

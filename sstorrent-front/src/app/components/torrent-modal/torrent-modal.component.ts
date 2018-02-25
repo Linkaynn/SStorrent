@@ -34,14 +34,14 @@ export class TorrentModalComponent extends BaseComponent {
       let json = response.json();
 
       if (json.status == "error") {
-        this.error("An error happend retrieving the link of the torrent. Try again later.")
+        this.error("An error happen retrieving the link of the torrent. Try again later.")
       } else {
         this.link = json.data.link;
         this.linkType = json.data.linkType;
       }
     }).catch((err) => {
       console.error(err);
-      this.error("Internal. An error happend retrieving the link of the torrent. Try again later.")
+      this.error("Internal. An error happen retrieving the link of the torrent. Try again later.")
       this.stopLoading();
     })
   }

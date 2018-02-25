@@ -18,7 +18,7 @@ public class MagnetLinkConfiguration extends Configuration {
         rowSelector = "tbody tr";
         magnetSelector = "a[title=\"Download Magnet\"]";
 	    directDownloadSelector = "";
-
+	    working = false;
     }
 
 	@Override

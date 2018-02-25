@@ -7,7 +7,7 @@ import java.util.Set;
 
 @Entity(name = "Mirror")
 @Table(name = "mirror")
-public class Mirror implements Serializable {
+public class Mirror extends SModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -16,9 +16,6 @@ public class Mirror implements Serializable {
 
     @Column(name = "name")
     private String name;
-
-    @Column(name = "collapsed_name")
-    private String collapsedName;
 
     @Column(name = "working")
     private boolean working;
@@ -29,6 +26,11 @@ public class Mirror implements Serializable {
     private Set<User> users;
 
     public Mirror() {}
+
+    public Mirror(String name, boolean working) {
+        this.name = name;
+        this.working = working;
+    }
 
     public int getId() {
         return id;
@@ -44,14 +46,6 @@ public class Mirror implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getCollapsedName() {
-        return collapsedName;
-    }
-
-    public void setCollapsedName(String collapsedName) {
-        this.collapsedName = collapsedName;
     }
 
     public Set<User> getUsers() {
@@ -73,19 +67,19 @@ public class Mirror implements Serializable {
         if (o == null) return false;
 
         if (o.getClass() == String.class) {
-            return ((String) o).equals(this.collapsedName);
+            return ((String) o).equals(this.name);
         }
 
         if (getClass() != o.getClass()) return false;
 
         Mirror mirror = (Mirror) o;
-        return id == mirror.id && Objects.equals(collapsedName, mirror.collapsedName);
+        return id == mirror.id && Objects.equals(name, mirror.name);
 
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, collapsedName, working, users);
+        return Objects.hash(id, name, working, users);
     }
 }

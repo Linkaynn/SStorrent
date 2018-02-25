@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Entity(name = "User")
 @Table(name = "user")
-public class User implements Serializable{
+public class User extends SModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -100,6 +100,10 @@ public class User implements Serializable{
         this.mirrors = mirrors;
     }
 
+	public void setToken(String token) {
+		this.token = token;
+	}
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -121,21 +125,7 @@ public class User implements Serializable{
         return id;
     }
 
-    public void save(Session session) {
-	    Transaction transaction = session.beginTransaction();
-	    session.save(this);
-	    transaction.commit();
-    }
-
-    public void refresh() {
-        DBSessionFactory.openSession().refresh(this);
-    }
-
-    public boolean isAdmin() {
+	public boolean isAdmin() {
         return username.equals("root");
     }
-
-	public void setToken(String token) {
-		this.token = token;
-	}
 }

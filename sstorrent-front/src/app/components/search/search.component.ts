@@ -41,7 +41,7 @@ export class SearchComponent extends BaseComponent {
       let json = response.json();
 
       if (json.status == "error") {
-        this.error("An error was happend retrieving your mirrors. Probably your session expire.")
+        this.error("An error was happen retrieving your mirrors. Probably your session expire.")
         this.logout();
       } else {
         this.currentUser().setMirrors(json.data.mirrors);
@@ -57,7 +57,7 @@ export class SearchComponent extends BaseComponent {
     }).catch((err) => {
       this.stopLoading();
       console.error(err);
-      this.error("An error was happend retrieving your mirrors. Reload page please.")
+      this.error("An error was happen retrieving your mirrors. Reload page please.")
     })
   }
 

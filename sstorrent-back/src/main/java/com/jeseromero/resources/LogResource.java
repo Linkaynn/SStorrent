@@ -32,7 +32,7 @@ public class LogResource extends SResource{
 
 	    if(user != null && user.isAdmin()){
 
-		    Session session = DBSessionFactory.openSession();
+		    Session session = DBSessionFactory.getSession();
 
 		    List<Log> list = session.createQuery("from Log").list();
 

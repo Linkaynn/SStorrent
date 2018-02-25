@@ -22,6 +22,8 @@ public abstract class Configuration {
 
 	protected String directDownloadSelector;
 
+	protected boolean working;
+
 	public abstract String getName();
 
 	public abstract Elements getRows(Document document);
@@ -33,4 +35,8 @@ public abstract class Configuration {
 	public abstract String getDirectDownloadLink(Document document);
 
 	public abstract String buildSearchUrl(String text, Integer index);
+
+	public boolean isWorking() {
+		return working;
+	}
 }

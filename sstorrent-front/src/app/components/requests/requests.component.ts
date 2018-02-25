@@ -21,7 +21,7 @@ export class RequestsComponent extends BaseComponent {
       let json = response.json();
 
       if (json.status == "error") {
-        this.error("An error happend retrieving de requests.")
+        this.error("An error happen retrieving de requests.")
       } else {
         this.requests = json.data.requests;
       }
@@ -29,7 +29,7 @@ export class RequestsComponent extends BaseComponent {
     }).catch((err) => {
       this.stopLoading();
       console.error(err);
-      this.error("Internal. An error happend retrieving de requests.")
+      this.error("Internal. An error happen retrieving de requests.")
     })
   }
 
@@ -41,7 +41,7 @@ export class RequestsComponent extends BaseComponent {
       let json = response.json();
 
       if (json.status == "error") {
-        this.error("An error happend rejecting de requests.")
+        this.error("An error happen rejecting de requests.")
       } else {
         for (let i = 0; i < this.requests.length; i++) {
             if (this.requests[i].id == request.id) {
@@ -53,7 +53,7 @@ export class RequestsComponent extends BaseComponent {
     }).catch((err) => {
       this.stopLoading();
       console.error(err);
-      this.error("Internal. An error happend rejecting de requests.")
+      this.error("Internal. An error happen rejecting de requests.")
     })
   }
 
@@ -65,14 +65,14 @@ export class RequestsComponent extends BaseComponent {
       let json = response.json();
 
       if (json.status == "error") {
-        this.error("An error happend accepting de requests.")
+        this.error("An error happen accepting de requests.")
       } else {
         this.success("Request accepted.")
       }
     }).catch((err) => {
       this.stopLoading();
       console.error(err);
-      this.error("Internal. An error happend accepting de requests.")
+      this.error("Internal. An error happen accepting de requests.")
     })
   }
 }

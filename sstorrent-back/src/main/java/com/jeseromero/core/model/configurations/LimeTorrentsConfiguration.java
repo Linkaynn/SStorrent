@@ -18,6 +18,7 @@ public class LimeTorrentsConfiguration extends Configuration {
         rowSelector = ".table2 tbody tr";
         magnetSelector = "div.downloadarea div.dltorrent p a";
 	    directDownloadSelector = magnetSelector;
+	    working = true;
     }
 
 	@Override

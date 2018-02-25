@@ -28,7 +28,7 @@ public class SLogger {
     }
 
     private void registerLog(String username, String message){
-	    Session session = DBSessionFactory.openSession();
+	    Session session = DBSessionFactory.getSession();
 
 	    Transaction transaction = session.beginTransaction();
 

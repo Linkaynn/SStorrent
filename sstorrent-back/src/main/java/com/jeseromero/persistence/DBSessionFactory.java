@@ -1,9 +1,15 @@
 package com.jeseromero.persistence;
 
 import com.jeseromero.util.SLogger;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.SharedSessionContract;
 import org.hibernate.cfg.Configuration;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class DBSessionFactory {
 
@@ -15,12 +21,20 @@ public class DBSessionFactory {
 		createSessionFactory();
 	}
 
-    public static Session openSession() {
+    public static Session getSession() {
 	    if (sessionFactory == null) {
 		    createSessionFactory();
 	    }
 
-        Session newSession = sessionFactory.openSession();
+	    Session currentSession = sessionFactory.getCurrentSession();
+
+	    try {
+		    if (currentSession.isOpen() && !currentSession.isJoinedToTransaction()) {
+			    return currentSession;
+		    }
+	    } catch (HibernateException exception) {}
+
+	    Session newSession = sessionFactory.openSession();
 
         new Thread(new SessionCloser(newSession)).start();
 

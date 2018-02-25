@@ -2,17 +2,17 @@
   <h3 class="text-center bold brand-color">Your profile</h3>
 
   <form [formGroup]="preferenceForm">
-    <label class="margin-0 margin-top-15 bold brand-color" for="name">Name</label>
+    <label class="margin-0 margin-top-15 bold brand-color">Name</label>
     <span class="field-error semi-bold" *ngIf="getFieldError(preferenceForm, 'name') != ''">({{getFieldError(preferenceForm, 'name')}})</span>
     <input class="form-control" type="text" name="name" value="" placeholder="Your name" formControlName="name" [(ngModel)]="name">
 
-    <label class="margin-0 margin-top-15 bold brand-color" for="newPassword">New password</label>
+    <label class="margin-0 margin-top-15 bold brand-color">New password</label>
     <span class="field-error semi-bold" *ngIf="getFieldError(preferenceForm, 'newPassword') != ''">({{getFieldError(preferenceForm, 'newPassword')}})</span>
-    <input class="form-control" type="password" newPassword="newPassword" value="" placeholder="Your new password" formControlName="newPassword" [(ngModel)]="newPassword">
+    <input class="form-control" type="password" name="newPassword" value="" placeholder="Your new password" formControlName="newPassword" [(ngModel)]="newPassword">
 
     <div *ngIf="allMirrors">
       <p class="margin-0 margin-top-15">
-        <label class="margin-0 bold brand-color" for="name">Your mirrors</label>
+        <label class="margin-0 bold brand-color">Your mirrors</label>
         <span class="field-error semi-bold" *ngIf="getFieldError(preferenceForm, 'mirrors') != ''">({{getFieldError(preferenceForm, 'mirrors')}})</span>
       </p>
       <div class="btn-group btn-group-toggle">

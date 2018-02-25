@@ -1,6 +1,5 @@
 package com.jeseromero.controller;
 
-import com.jeseromero.model.Mirror;
 import com.jeseromero.model.Profile;
 import com.jeseromero.model.Search;
 import com.jeseromero.model.User;
@@ -8,7 +7,6 @@ import com.jeseromero.persistence.DBSessionFactory;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import java.util.List;
 import java.util.stream.Collectors;
 
 public class UserController {
@@ -28,22 +26,17 @@ public class UserController {
     }
 
     public boolean exist(int userID) {
-        Session session = DBSessionFactory.openSession();
+        Session session = DBSessionFactory.getSession();
 
 	    return session.get(User.class, userID) != null;
     }
 
     public Profile getProfile(User user) {
-        Profile profile = null;
+        Profile profile = new Profile();
 
-	    profile = new Profile();
 	    profile.setSearches(user.getSearches().stream().map(Search::getSearch).collect(Collectors.toSet()));
 
 	    return profile;
-    }
-
-	public List<String> getMirrorsName(User user) {
-		return user.getMirrors().stream().map(Mirror::getName).collect(Collectors.toList());
     }
 
 	public void updateProfile(User user, String name, String[] mirrors) {
@@ -51,17 +44,17 @@ public class UserController {
 
 		user.setMirrors(mirrorController.getMirrors(mirrors));
 
-		Session currentSession = DBSessionFactory.openSession();
+		Session session = DBSessionFactory.getSession();
 
-		Transaction transaction = currentSession.beginTransaction();
-		currentSession.merge(user);
+		Transaction transaction = session.beginTransaction();
+		session.merge(user);
 		transaction.commit();
 	}
 
 	public void changePassword(User user, String newPassword) {
 		user.setPassword(newPassword);
 
-		Session currentSession = DBSessionFactory.openSession();
+		Session currentSession = DBSessionFactory.getSession();
 
 		Transaction transaction = currentSession.beginTransaction();
 		currentSession.merge(user);

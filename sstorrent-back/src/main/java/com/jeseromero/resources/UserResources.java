@@ -36,7 +36,7 @@ public class UserResources extends SResource {
 		User user = getUser(token);
 
 		if (user != null) {
-			Session session = DBSessionFactory.openSession();
+			Session session = DBSessionFactory.getSession();
 
 			List<Request> requests;
 
@@ -63,7 +63,7 @@ public class UserResources extends SResource {
 		User user = getUser(token);
 
 		if (user != null) {
-			Session session = DBSessionFactory.openSession();
+			Session session = DBSessionFactory.getSession();
 
 			Request request;
 
@@ -95,7 +95,7 @@ public class UserResources extends SResource {
 		User user = getUser(token);
 
 		if (user != null) {
-			Session session = DBSessionFactory.openSession();
+			Session session = DBSessionFactory.getSession();
 
 			Request request;
 
@@ -104,7 +104,7 @@ public class UserResources extends SResource {
 
 				User newUser = new User(request.getUsername(), request.getName(), request.getEmail(), request.getPassword());
 
-				newUser.setMirrors(mirrorController.getAllMirrors());
+				newUser.setMirrors(mirrorController.getAllWorkingMirrors());
 
 				Transaction transaction = session.beginTransaction();
 				session.save(newUser);
@@ -150,7 +150,7 @@ public class UserResources extends SResource {
 	    User user = getUser(token);
 
 	    if (user != null) {
-		    List<String> mirrors = userController.getMirrorsName(user);
+		    List<String> mirrors = user.getMirrors().stream().map(Mirror::getName).collect(Collectors.toList());
 
 		    if (mirrors != null) {
 			    return Response.ok(new SResponse("ok", new JSONLightMirrors(mirrors)).toJSON()).build();
@@ -165,9 +165,7 @@ public class UserResources extends SResource {
     @Path("retrieveAllMirrors")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllMirrors(@PathParam("token") String token) {
-	    List<Mirror> allMirrors = DBSessionFactory.openSession().createQuery("from Mirror").list();
-
-	    List<String> mirrors = allMirrors.stream().map(Mirror::getName).collect(Collectors.toList());
+	    List<String> mirrors = mirrorController.getAllWorkingMirrorsName();
 
         if (mirrors != null) {
             return Response.ok()
@@ -194,7 +192,7 @@ public class UserResources extends SResource {
 			if (user != null) {
 				userController.updateProfile(user, name, mirrors);
 
-				if (!newPassword.equals("null")) {
+				if (!newPassword.isEmpty() && !newPassword.equals("null")) {
 					userController.changePassword(user, newPassword);
 				}
 			} else {

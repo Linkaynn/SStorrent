@@ -17,7 +17,6 @@ public class SessionCloser implements Runnable{
 	public void run() {
 		try {
 			Thread.sleep(10000);
-
 			session.close();
 		} catch (InterruptedException e) {
 			logger.error(e);

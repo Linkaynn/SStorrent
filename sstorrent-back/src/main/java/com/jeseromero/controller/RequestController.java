@@ -21,7 +21,7 @@ public class RequestController {
     }
 
 	public void deleteRequestFrom(String username) {
-		Session session = DBSessionFactory.openSession();
+		Session session = DBSessionFactory.getSession();
 
 		try {
 			List<Request> requests = session.createQuery("from Request where username = '" + username + "' ").list();
