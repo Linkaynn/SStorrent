@@ -6,6 +6,7 @@ import com.jeseromero.core.model.Torrent;
 import com.jeseromero.model.Token;
 import com.jeseromero.model.lightweight.*;
 import com.jeseromero.resources.responses.SResponse;
+import com.jeseromero.util.SLogger;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -16,10 +17,11 @@ import java.util.stream.Collectors;
 @Path("search")
 public class SearchResource {
 
-    private SearchController searchController = SearchController.instance();
+	private static final SLogger logger = new SLogger(SearchResource.class.getName());
 
+	private final SearchController searchController = SearchController.instance();
 
-    private UserController userController = UserController.instance();
+    private final UserController userController = UserController.instance();
 
     @GET
     @Path("{mirror}/{value}")
@@ -41,6 +43,7 @@ public class SearchResource {
 	        }
 
 	        try {
+	        	logger.registerLog(userController.getUserIfExist(_token).getUsername(), "New search of " + value + " with " + data.size() + " results in " + mirror + ".");
 		        userController.registerSearch(_token, value);
 	        } catch (IllegalStateException ignored) {}
 

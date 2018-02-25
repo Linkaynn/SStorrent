@@ -14,4 +14,8 @@ public class JSONLightTorrents extends JSONable {
 	public JSONLightTorrents(List<JSONLightTorrent> lightTorrents) {
 		this.lightTorrents = lightTorrents;
 	}
+
+	public int size() {
+		return lightTorrents.size();
+	}
 }

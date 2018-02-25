@@ -6,6 +6,7 @@ import com.jeseromero.persistence.DBSessionFactory;
 import com.jeseromero.util.SLogger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import javax.persistence.NoResultException;
 import javax.persistence.criteria.CriteriaBuilder;
@@ -46,15 +47,9 @@ public class UserController {
 
         try {
 
-            CriteriaBuilder builder = session.getCriteriaBuilder();
-            CriteriaQuery<User> query = builder.createQuery(User.class);
+	        Query<User> query = session.createQuery("FROM User WHERE username='" + username + "' AND password='" + password + "'", User.class);
 
-            Root<User> root = query.from(User.class);
-
-            query.select(root).where(builder.equal(root.get("username"), username));
-            query.select(root).where(builder.equal(root.get("password"), password));
-
-            User user = session.createQuery(query).getSingleResult();
+	        User user = query.uniqueResult();
 
             Token token = new Token();
 
