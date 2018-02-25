@@ -2,6 +2,7 @@ package com.jeseromero.core.controller;
 
 
 import com.jeseromero.core.model.Configuration;
+import com.jeseromero.core.model.configurations.EliteTorrentConfiguration;
 import com.jeseromero.core.model.configurations.LimeTorrentsConfiguration;
 import com.jeseromero.core.model.configurations.MagnetLinkConfiguration;
 import com.jeseromero.core.model.configurations.PirateBayConfiguration;
@@ -30,6 +31,7 @@ public class ConfigurationController {
 		ArrayList<Configuration> configurations = new ArrayList<>();
 
 		configurations.add(new MagnetLinkConfiguration());
+	    configurations.add(new EliteTorrentConfiguration());
 		configurations.add(new PirateBayConfiguration());
 		configurations.add(new LimeTorrentsConfiguration());
 
