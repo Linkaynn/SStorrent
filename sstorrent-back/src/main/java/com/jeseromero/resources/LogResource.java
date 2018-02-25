@@ -2,24 +2,23 @@ package com.jeseromero.resources;
 
 import com.jeseromero.controller.UserController;
 import com.jeseromero.model.Log;
-import com.jeseromero.model.Request;
-import com.jeseromero.model.Token;
 import com.jeseromero.model.User;
-import com.jeseromero.model.lightweight.JSONLightError;
 import com.jeseromero.model.lightweight.JSONLightLogs;
 import com.jeseromero.persistence.DBSessionFactory;
 import com.jeseromero.resources.responses.SResponse;
 import com.jeseromero.util.SLogger;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
 
-import javax.ws.rs.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("log/{token}")
-public class LogResource {
+public class LogResource extends SResource{
 
     private static final SLogger logger = new SLogger(LogResource.class.getName());
 
@@ -29,7 +28,7 @@ public class LogResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getLogs(@PathParam("token") String token) {
 
-	    User user = userController.getUserIfExist(new Token(token));
+	    User user = getUser(token);
 
 	    if(user != null && user.isAdmin()){
 

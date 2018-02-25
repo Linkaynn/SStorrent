@@ -5,8 +5,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-import java.util.ArrayList;
-
 public class DBSessionFactory {
 
     private static final SLogger logger = new SLogger(DBSessionFactory.class.getName());

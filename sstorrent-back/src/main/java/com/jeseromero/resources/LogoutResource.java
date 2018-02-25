@@ -1,7 +1,6 @@
 package com.jeseromero.resources;
 
 import com.jeseromero.controller.UserController;
-import com.jeseromero.model.Token;
 
 import javax.inject.Inject;
 import javax.ws.rs.GET;

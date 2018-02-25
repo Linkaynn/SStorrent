@@ -1,8 +1,5 @@
 package com.jeseromero.core.model;
 
-import com.jeseromero.core.controller.JSOUPController;
-import org.jsoup.nodes.Document;
-
 /**
  * Created by Linkaynn on 12/02/2017.
  * TorrentSearcher

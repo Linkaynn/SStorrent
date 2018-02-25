@@ -1,12 +1,12 @@
 package com.jeseromero.resources;
 
 import com.jeseromero.controller.SearchController;
-import com.jeseromero.controller.UserController;
 import com.jeseromero.core.model.Torrent;
-import com.jeseromero.model.Token;
-import com.jeseromero.model.lightweight.*;
+import com.jeseromero.model.User;
+import com.jeseromero.model.lightweight.JSONLightError;
+import com.jeseromero.model.lightweight.JSONLightTorrent;
+import com.jeseromero.model.lightweight.JSONLightTorrents;
 import com.jeseromero.resources.responses.SResponse;
-import com.jeseromero.util.SLogger;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -15,13 +15,9 @@ import java.util.Collection;
 import java.util.stream.Collectors;
 
 @Path("search")
-public class SearchResource {
-
-	private static final SLogger logger = new SLogger(SearchResource.class.getName());
+public class SearchResource extends SResource{
 
 	private final SearchController searchController = SearchController.instance();
-
-    private final UserController userController = UserController.instance();
 
     @GET
     @Path("{mirror}/{value}")
@@ -30,9 +26,11 @@ public class SearchResource {
                            @PathParam("value") String value,
                            @QueryParam("token") String token) {
 
-	    Token _token = new Token(token);
+	    User user = getUser(token);
 
-	    if (isLogged(_token)) {
+	    if (user != null) {
+
+		    logger.info(user.getUsername(),"New search in %s of %s", mirror, value);
 
 	    	Collection<Torrent> torrents = searchController.search(mirror, value, 0);
 
@@ -43,9 +41,13 @@ public class SearchResource {
 	        }
 
 	        try {
-	        	logger.registerLog(userController.getUserIfExist(_token).getUsername(), "New search of " + value + " with " + data.size() + " results in " + mirror + ".");
-		        userController.registerSearch(_token, value);
-	        } catch (IllegalStateException ignored) {}
+
+		        searchController.registerSearch(user, value);
+		        logger.info(user.getUsername(), "New search of %s with %d results in %s.", value, data.size(), mirror);
+
+	        } catch (IllegalStateException exception) {
+	        	logger.error(exception);
+	        }
 
 	        return Response.ok(new SResponse("ok", data).toJSON()).build();
         }
@@ -60,14 +62,12 @@ public class SearchResource {
 	                       @FormParam("link") String link,
 	                       @FormParam("token") String token) {
 
-		if (isLogged(new Token(token))) {
+		User user = getUser(token);
+
+		if (user != null) {
 			return Response.ok(new SResponse("ok", searchController.retrieveLink(link, mirror)).toJSON()).build();
 		}
 
 		return Response.ok(new SResponse("error", new JSONLightError(3, "Error retrieving link of " + mirror)).toJSON()).build();
-	}
-
-	private boolean isLogged(Token _token) {
-		return userController.isLogged(_token);
 	}
 }

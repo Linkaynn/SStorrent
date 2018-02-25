@@ -1,6 +1,8 @@
 package com.jeseromero.model;
 
 import com.jeseromero.persistence.DBSessionFactory;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -26,6 +28,9 @@ public class User implements Serializable{
 
     @Column(name = "name", nullable = false)
     private String name;
+
+    @Column(name = "token")
+    private String token;
 
     // Yes, I know that is an anti-pattern, but men, its just a few users.
     // https://vladmihalcea.com/2016/09/13/the-best-way-to-handle-the-lazyinitializationexception/
@@ -63,20 +68,8 @@ public class User implements Serializable{
         return id;
     }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
     public String getUsername() {
         return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setPassword(String password) {
@@ -85,10 +78,6 @@ public class User implements Serializable{
 
 	public String getEmail() {
 		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	public String getName() {
@@ -101,10 +90,6 @@ public class User implements Serializable{
 
     public Set<Search> getSearches() {
         return searches;
-    }
-
-    public void setSearches(Set<Search> searches) {
-        this.searches = searches;
     }
 
     public Set<Mirror> getMirrors() {
@@ -136,15 +121,21 @@ public class User implements Serializable{
         return id;
     }
 
-    public void refresh() {
-        DBSessionFactory.openSession().refresh(this);
+    public void save(Session session) {
+	    Transaction transaction = session.beginTransaction();
+	    session.save(this);
+	    transaction.commit();
     }
 
-    public void addSearch(Search search) {
-        searches.add(search);
+    public void refresh() {
+        DBSessionFactory.openSession().refresh(this);
     }
 
     public boolean isAdmin() {
         return username.equals("root");
     }
+
+	public void setToken(String token) {
+		this.token = token;
+	}
 }

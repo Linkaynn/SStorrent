@@ -7,12 +7,10 @@ import com.jeseromero.core.model.Torrent;
 import com.jeseromero.model.lightweight.JSONLightLink;
 import org.jsoup.nodes.Document;
 
-import javax.ejb.AsyncResult;
-import java.util.*;
+import java.util.Collection;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public class TorrentSearcher {
 

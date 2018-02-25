@@ -1,9 +1,15 @@
 package com.jeseromero.resources;
 
-import com.jeseromero.controller.SearchController;
+import com.jeseromero.controller.MirrorController;
 import com.jeseromero.controller.UserController;
-import com.jeseromero.model.*;
-import com.jeseromero.model.lightweight.*;
+import com.jeseromero.model.Mirror;
+import com.jeseromero.model.Profile;
+import com.jeseromero.model.Request;
+import com.jeseromero.model.User;
+import com.jeseromero.model.lightweight.JSONLightError;
+import com.jeseromero.model.lightweight.JSONLightMirrors;
+import com.jeseromero.model.lightweight.JSONLightRequest;
+import com.jeseromero.model.lightweight.JSONLightRequests;
 import com.jeseromero.persistence.DBSessionFactory;
 import com.jeseromero.resources.responses.SResponse;
 import org.hibernate.Session;
@@ -17,18 +23,19 @@ import java.util.stream.Collectors;
 
 
 @Path("{token}")
-public class UserResources {
+public class UserResources extends SResource {
 
     private UserController userController = UserController.instance();
 
-	private SearchController searchController = SearchController.instance();
+    private MirrorController mirrorController = MirrorController.instance();
 
 	@GET
 	@Path("getRequests")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getRequests(@PathParam("token") String token) {
+		User user = getUser(token);
 
-		if (userController.isLogged(new Token(token))) {
+		if (user != null) {
 			Session session = DBSessionFactory.openSession();
 
 			List<Request> requests;
@@ -53,8 +60,9 @@ public class UserResources {
 	@Path("rejectRequest")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response rejectRequest(@PathParam("token") String token, @FormParam("requestId") int requestId) {
+		User user = getUser(token);
 
-		if (userController.isLogged(new Token(token))) {
+		if (user != null) {
 			Session session = DBSessionFactory.openSession();
 
 			Request request;
@@ -84,8 +92,9 @@ public class UserResources {
 	@Path("acceptRequest")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response acceptRequest(@PathParam("token") String token, @FormParam("requestId") int requestId) {
+		User user = getUser(token);
 
-		if (userController.isLogged(new Token(token))) {
+		if (user != null) {
 			Session session = DBSessionFactory.openSession();
 
 			Request request;
@@ -95,7 +104,7 @@ public class UserResources {
 
 				User newUser = new User(request.getUsername(), request.getName(), request.getEmail(), request.getPassword());
 
-				newUser.setMirrors(searchController.getAllMirrors());
+				newUser.setMirrors(mirrorController.getAllMirrors());
 
 				Transaction transaction = session.beginTransaction();
 				session.save(newUser);
@@ -119,13 +128,17 @@ public class UserResources {
     @Path("me")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getUserInfo(@PathParam("token") String token) {
-        Profile profile = userController.getProfile(new Token(token));
+	    User user = getUser(token);
 
-        if (profile != null) {
-            return Response.ok()
-                    .entity(new SResponse("ok", profile).toJSON())
-                    .build();
-        }
+	    if (user != null) {
+		    Profile profile = userController.getProfile(user);
+
+		    if (profile != null) {
+			    return Response.ok()
+					    .entity(new SResponse("ok", profile).toJSON())
+					    .build();
+		    }
+	    }
 
         return Response.ok(new SResponse("error", new JSONLightError(1, "Error retrieving profile, user do not exist")).toJSON()).build();
     }
@@ -134,13 +147,15 @@ public class UserResources {
     @Path("retrieveMirrors")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getMirrors(@PathParam("token") String token) {
-        List<String> mirrors = userController.getMirrors(new Token(token)).stream().map(Mirror::getName).collect(Collectors.toList());
+	    User user = getUser(token);
 
-        if (mirrors != null) {
-            return Response.ok()
-                    .entity(new SResponse("ok", new JSONLightMirrors(mirrors)).toJSON())
-                    .build();
-        }
+	    if (user != null) {
+		    List<String> mirrors = userController.getMirrorsName(user);
+
+		    if (mirrors != null) {
+			    return Response.ok(new SResponse("ok", new JSONLightMirrors(mirrors)).toJSON()).build();
+		    }
+	    }
 
         return Response.ok(new SResponse("error", new JSONLightError(3, "Error retrieving the mirrors")).toJSON()).build();
     }
@@ -174,16 +189,21 @@ public class UserResources {
 		String[] mirrors = mirrorsByComma.split(",");
 
 		try {
-			Token _token = new Token(token);
+			User user = getUser(token);
 
-			userController.updateProfile(_token, name, mirrors);
+			if (user != null) {
+				userController.updateProfile(user, name, mirrors);
 
-			if (!newPassword.equals("null")) {
-				userController.changePassword(_token, newPassword);
+				if (!newPassword.equals("null")) {
+					userController.changePassword(user, newPassword);
+				}
+			} else {
+				// TODO Respond error
+				return Response.ok(new SResponse("error", new JSONLightError(4, "Error updating the profile")).toJSON()).build();
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 
 			return Response.ok(new SResponse("error", new JSONLightError(4, "Error updating the profile")).toJSON()).build();
 		}

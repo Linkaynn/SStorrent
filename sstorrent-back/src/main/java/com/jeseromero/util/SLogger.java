@@ -19,12 +19,15 @@ public class SLogger {
         this.logger = Logger.getLogger(className);
     }
 
-    public void info(String message) {
-        logger.log(Level.INFO, message);
+	public void info(String username, String message, Object... args) {
+    	message = username + ":\t " + String.format(message, args);
 
+    	logger.log(Level.INFO, message);
+
+		this.registerLog(username, String.format(message, args));
     }
 
-    public void registerLog(String username, String message){
+    private void registerLog(String username, String message){
 	    Session session = DBSessionFactory.openSession();
 
 	    Transaction transaction = session.beginTransaction();

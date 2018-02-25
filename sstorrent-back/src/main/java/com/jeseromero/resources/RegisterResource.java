@@ -2,8 +2,8 @@ package com.jeseromero.resources;
 
 import com.jeseromero.model.Request;
 import com.jeseromero.model.lightweight.JSONLightError;
-import com.jeseromero.resources.responses.SResponse;
 import com.jeseromero.persistence.DBSessionFactory;
+import com.jeseromero.resources.responses.SResponse;
 import com.jeseromero.util.SLogger;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
