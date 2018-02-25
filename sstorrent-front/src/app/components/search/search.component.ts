@@ -7,6 +7,7 @@ import { UserService } from '../../services/user.service';
 import { SearchService } from '../../services/search.service';
 import { ActivatedRoute } from '@angular/router';
 import { TorrentModalComponent } from '../torrent-modal/torrent-modal.component';
+import {Mirror} from '../../models/Mirror';
 
 @Component({
   selector: 'app-search',
@@ -18,7 +19,7 @@ export class SearchComponent extends BaseComponent {
   torrents = [];
 
   value : string;
-  mirror : string = "all";
+  mirror : string = null;
 
   searchForm: FormGroup;
 
@@ -45,7 +46,7 @@ export class SearchComponent extends BaseComponent {
         this.logout();
       } else {
         this.currentUser().setMirrors(json.data.mirrors);
-        this.mirror = this.currentUser().mirrors[0];
+        this.mirror = this.currentUser().mirrors[0].name;
 
         const value = this.route.snapshot.paramMap.get('value');
 

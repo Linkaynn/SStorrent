@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BaseComponent } from '../base/base.component';
 import { UserService } from '../../services/user.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {Mirror} from '../../models/Mirror';
 
 @Component({
   selector: 'app-preferences',
@@ -13,8 +14,8 @@ export class PreferencesComponent extends BaseComponent {
   name : string = this.currentUser().name;
   newPassword : string = null;
 
-  allMirrors : string[] = null;
-  userMirrors : string[] = [];
+  allMirrors : Mirror[] = null;
+  userMirrors : any = [];
 
   preferenceForm : FormGroup;
 
@@ -43,7 +44,7 @@ export class PreferencesComponent extends BaseComponent {
         this.logout();
       } else {
         this.currentUser().setMirrors(json.data.mirrors);
-        this.currentUser().mirrors.forEach((mirror) => this.userMirrors[mirror] = true);
+        this.currentUser().mirrors.forEach((mirror) => this.userMirrors[mirror.name] = true);
       }
     }).catch((err) => {
       this.stopLoading();
@@ -63,7 +64,12 @@ export class PreferencesComponent extends BaseComponent {
         this.error("An error was happend retrieving the mirrors. Probably your session expire.")
         this.logout();
       } else {
-        this.allMirrors = json.data.mirrors;
+        this.allMirrors = [];
+
+        for (let mirror of json.data.mirrors) {
+          this.allMirrors.push(new Mirror(mirror.name, mirror.language))
+        }
+
       }
     }).catch((err) => {
       this.stopLoading();
@@ -84,7 +90,7 @@ export class PreferencesComponent extends BaseComponent {
         this.error("Error updating your profile. Try again later");
         this.stopLoading();
       } else {
-        this.success("Profile updated.")
+        this.success('Profile updated.');
         this.currentUser().name = this.name;
         this.newPassword = "";
         this.retrieveMirrors();

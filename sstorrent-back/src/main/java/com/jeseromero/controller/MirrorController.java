@@ -32,7 +32,7 @@ public class MirrorController {
 	public Configuration getConfiguration(String mirror) {
 		ConfigurationController configurationController = new ConfigurationController();
 
-		Configuration mirrorConfig = configurationController.getConfigurationByName(getCollapsedName(mirror));
+		Configuration mirrorConfig = configurationController.getConfigurationByName(mirror);
 
 		if (mirrorConfig == null) {
 			logger.warning(mirror + " doesn't exist like a mirror. Possible mirrors are: " + configurationController.allConfigurations().stream().map((Configuration::getName)).reduce((s, s2) -> s + ", " + s2));
@@ -109,7 +109,7 @@ public class MirrorController {
 			}
 
 			if (!exist) {
-				newMirrors.add(new Mirror(configuration.getName(), configuration.isWorking()));
+				newMirrors.add(new Mirror(configuration.getName(), configuration.getLanguage(), configuration.isWorking()));
 			}
 		}
 

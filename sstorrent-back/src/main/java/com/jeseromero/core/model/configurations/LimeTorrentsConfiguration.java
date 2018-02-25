@@ -1,6 +1,7 @@
 package com.jeseromero.core.model.configurations;
 
 import com.jeseromero.core.model.Configuration;
+import com.jeseromero.core.model.Languages;
 import com.jeseromero.core.model.Torrent;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,7 +14,8 @@ import org.jsoup.select.Elements;
 public class LimeTorrentsConfiguration extends Configuration {
 
     public LimeTorrentsConfiguration() {
-        name = "LimeTorrents";
+        name = "Mirror 1";
+        language = Languages.English;
         searchUrl = "https://www.limetorrents.cc/search/all/%s/date/%s/";
         rowSelector = ".table2 tbody tr";
         magnetSelector = "div.downloadarea div.dltorrent p a";

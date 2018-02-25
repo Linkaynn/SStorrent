@@ -1,6 +1,7 @@
 package com.jeseromero.core.model.configurations;
 
 import com.jeseromero.core.model.Configuration;
+import com.jeseromero.core.model.Languages;
 import com.jeseromero.core.model.Torrent;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,7 +14,8 @@ import org.jsoup.select.Elements;
 public class PirateBayConfiguration extends Configuration {
 
     public PirateBayConfiguration() {
-        name = "PirateBay";
+        name = "Mirror 3";
+	    language = Languages.English;
         searchUrl = "https://pirateproxy.tf/search/%s/%s/7//";
         rowSelector = "#searchResult tr";
         magnetSelector = "a[title=\"Get this torrent\"]";

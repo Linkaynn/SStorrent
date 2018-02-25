@@ -1,6 +1,7 @@
 package com.jeseromero.core.model.configurations;
 
 import com.jeseromero.core.model.Configuration;
+import com.jeseromero.core.model.Languages;
 import com.jeseromero.core.model.Torrent;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -13,7 +14,8 @@ import org.jsoup.select.Elements;
 public class MagnetLinkConfiguration extends Configuration {
 
     public MagnetLinkConfiguration() {
-        name = "MagnetLink";
+        name = "Mirror 2";
+	    language = Languages.English;
         searchUrl = "https://magnetlink.in/search.php?f=%s&p=%s";
         rowSelector = "tbody tr";
         magnetSelector = "a[title=\"Download Magnet\"]";

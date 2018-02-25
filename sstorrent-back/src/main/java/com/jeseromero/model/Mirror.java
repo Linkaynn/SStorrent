@@ -17,6 +17,9 @@ public class Mirror extends SModel implements Serializable {
     @Column(name = "name")
     private String name;
 
+    @Column(name = "language")
+    private String language;
+
     @Column(name = "working")
     private boolean working;
 
@@ -27,36 +30,21 @@ public class Mirror extends SModel implements Serializable {
 
     public Mirror() {}
 
-    public Mirror(String name, boolean working) {
+    public Mirror(String name, String language, boolean working) {
         this.name = name;
+        this.language = language;
         this.working = working;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getLanguage() {
+		return language;
+	}
 
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
-
-    public boolean isWorking() {
+	public boolean isWorking() {
         return working;
     }
 

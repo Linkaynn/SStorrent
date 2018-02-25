@@ -17,7 +17,7 @@
       </p>
       <div class="btn-group btn-group-toggle">
         <label class="btn-primary" ngbButtonLabel *ngFor="let mirror of allMirrors">
-          <input type="checkbox" ngbButton [(ngModel)]="userMirrors[mirror]" formControlName="mirrors"> {{mirror}}
+          <input type="checkbox" ngbButton [(ngModel)]="userMirrors[mirror.name]" formControlName="mirrors"> {{mirror.name}} ({{mirror.language}})
         </label>
       </div>
     </div>

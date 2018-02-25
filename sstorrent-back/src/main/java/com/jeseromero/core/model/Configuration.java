@@ -14,6 +14,8 @@ public abstract class Configuration {
 
 	protected String name;
 
+	protected String language;
+
 	protected String searchUrl;
 
 	protected String rowSelector;
@@ -38,5 +40,9 @@ public abstract class Configuration {
 
 	public boolean isWorking() {
 		return working;
+	}
+
+	public String getLanguage() {
+		return language;
 	}
 }

@@ -19,6 +19,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -150,7 +151,7 @@ public class UserResources extends SResource {
 	    User user = getUser(token);
 
 	    if (user != null) {
-		    List<String> mirrors = user.getMirrors().stream().map(Mirror::getName).collect(Collectors.toList());
+		    Set<Mirror> mirrors = user.getMirrors();
 
 		    if (mirrors != null) {
 			    return Response.ok(new SResponse("ok", new JSONLightMirrors(mirrors)).toJSON()).build();
@@ -165,7 +166,7 @@ public class UserResources extends SResource {
     @Path("retrieveAllMirrors")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllMirrors(@PathParam("token") String token) {
-	    List<String> mirrors = mirrorController.getAllWorkingMirrorsName();
+	    Set<Mirror> mirrors = mirrorController.getAllWorkingMirrors();
 
         if (mirrors != null) {
             return Response.ok()

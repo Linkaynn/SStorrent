@@ -6,7 +6,7 @@
       </div>
       <div class="col-6">
         <select class="form-control" name="mirror" *ngIf="currentUser().mirrors.length > 0" [(ngModel)]="mirror" formControlName="mirror">
-          <option *ngFor="let mirror of currentUser().mirrors" value="{{mirror}}">{{mirror}}</option>
+          <option *ngFor="let mirror of currentUser().mirrors" value="{{mirror.name}}">{{mirror.name}} ({{mirror.language}})</option>
         </select>
       </div>
       <div class="col-2 text-center">
