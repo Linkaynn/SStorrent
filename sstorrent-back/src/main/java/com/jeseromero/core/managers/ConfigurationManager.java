@@ -1,4 +1,4 @@
-package com.jeseromero.core.controller;
+package com.jeseromero.core.managers;
 
 
 import com.jeseromero.core.model.Configuration;
@@ -10,7 +10,7 @@ import com.jeseromero.core.model.configurations.PirateBayConfiguration;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class ConfigurationController {
+public class ConfigurationManager {
 
     public Configuration getConfigurationByName(String name) {
 	    for (Configuration configuration : allConfigurations()) {

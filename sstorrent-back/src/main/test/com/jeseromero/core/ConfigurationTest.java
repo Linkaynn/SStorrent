@@ -1,7 +1,7 @@
 package com.jeseromero.core;
 
 
-import com.jeseromero.core.torrent.TorrentManager;
+import com.jeseromero.core.managers.TorrentManager;
 import com.jeseromero.core.model.configurations.EliteTorrentConfiguration;
 import com.jeseromero.core.model.configurations.LimeTorrentsConfiguration;
 import com.jeseromero.core.model.configurations.MagnetLinkConfiguration;

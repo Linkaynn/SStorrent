@@ -1,9 +1,6 @@
 package com.jeseromero;
 
 import com.jeseromero.controller.MirrorController;
-import com.jeseromero.core.controller.ConfigurationController;
-import com.jeseromero.core.model.Configuration;
-import com.jeseromero.model.Mirror;
 import com.jeseromero.resources.*;
 import com.jeseromero.util.SLogger;
 

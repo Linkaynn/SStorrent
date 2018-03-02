@@ -1,7 +1,7 @@
 package com.jeseromero.controller;
 
 
-import com.jeseromero.core.torrent.TorrentManager;
+import com.jeseromero.core.managers.TorrentManager;
 import com.jeseromero.core.model.Configuration;
 import com.jeseromero.core.model.Torrent;
 import com.jeseromero.model.Search;

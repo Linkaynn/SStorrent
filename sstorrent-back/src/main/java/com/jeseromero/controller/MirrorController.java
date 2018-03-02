@@ -1,7 +1,7 @@
 package com.jeseromero.controller;
 
 
-import com.jeseromero.core.controller.ConfigurationController;
+import com.jeseromero.core.managers.ConfigurationManager;
 import com.jeseromero.core.model.Configuration;
 import com.jeseromero.model.Mirror;
 import com.jeseromero.persistence.DBSessionFactory;
@@ -30,12 +30,12 @@ public class MirrorController {
     }
 
 	public Configuration getConfiguration(String mirror) {
-		ConfigurationController configurationController = new ConfigurationController();
+		ConfigurationManager configurationManager = new ConfigurationManager();
 
-		Configuration mirrorConfig = configurationController.getConfigurationByName(mirror);
+		Configuration mirrorConfig = configurationManager.getConfigurationByName(mirror);
 
 		if (mirrorConfig == null) {
-			logger.warning(mirror + " doesn't exist like a mirror. Possible mirrors are: " + configurationController.allConfigurations().stream().map((Configuration::getName)).reduce((s, s2) -> s + ", " + s2));
+			logger.warning(mirror + " doesn't exist like a mirror. Possible mirrors are: " + configurationManager.allConfigurations().stream().map((Configuration::getName)).reduce((s, s2) -> s + ", " + s2));
 
 			return null;
 		}
@@ -97,7 +97,7 @@ public class MirrorController {
 
 		boolean exist;
 
-		for (Configuration configuration : new ConfigurationController().allConfigurations()) {
+		for (Configuration configuration : new ConfigurationManager().allConfigurations()) {
 			exist = false;
 
 			for (Mirror mirror : allMirrors) {

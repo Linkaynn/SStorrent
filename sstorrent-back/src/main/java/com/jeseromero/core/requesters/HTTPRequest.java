@@ -1,4 +1,4 @@
-package com.jeseromero.core.controller;
+package com.jeseromero.core.requesters;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -9,7 +9,7 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-public class JSOUPController {
+public class HTTPRequest {
 
     public Document getHtmlDocument(String url) {
 
