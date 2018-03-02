@@ -1,4 +1,4 @@
-package com.jeseromero.core.controller.runnable;
+package com.jeseromero.core.torrent;
 
 import com.jeseromero.core.controller.JSOUPController;
 import com.jeseromero.core.model.Configuration;
@@ -10,14 +10,9 @@ import org.jsoup.select.Elements;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.concurrent.Callable;
 import java.util.stream.Collectors;
 
-/**
- * Created by Linkaynn on 20/02/2017.
- * SSTorrent
- */
-public class TorrentLoader implements Callable<Collection<Torrent>> {
+public class TorrentLoader {
 
 	private JSOUPController jsoupController;
 
@@ -33,11 +28,8 @@ public class TorrentLoader implements Callable<Collection<Torrent>> {
 		jsoupController = new JSOUPController();
 	}
 
-	@Override
-	public Collection<Torrent> call() {
+	public Collection<Torrent> retrieveTorrents() {
 		List<Torrent> torrents = new ArrayList<>();
-
-		Collection<Thread> threads = new ArrayList<>();
 
 		Document document = getDocument();
 
@@ -47,35 +39,15 @@ public class TorrentLoader implements Callable<Collection<Torrent>> {
 			for (Element row : rows) {
 				Torrent torrent = configuration.getTorrentLink(row);
 
-				torrent.setConfiguration(configuration);
-//
-//				Thread thread = new Thread(new TorrentFiller(torrent));
-//				thread.start();
-//				threads.add(thread);
-
 				torrents.add(torrent);
 			}
 
-			waitFor(threads);
-
-			torrents = torrents.stream().filter(torrent -> torrent.getDirectDownloadLink() == null).collect(Collectors.toList());
 		}
 
 		return torrents;
 	}
 
-	private void waitFor(Collection<Thread> threads) {
-		for (Thread thread : threads) {
-			try {
-				thread.join(10000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
 	private Document getDocument() {
 		return jsoupController.getHtmlDocument(configuration.buildSearchUrl(textToSearch, index));
 	}
-
 }

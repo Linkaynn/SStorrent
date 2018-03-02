@@ -1,9 +1,5 @@
 package com.jeseromero.core.model;
 
-/**
- * Created by Linkaynn on 12/02/2017.
- * TorrentSearcher
- */
 public class Torrent {
 
 	private String name;
@@ -18,13 +14,7 @@ public class Torrent {
 
 	private String leechers;
 
-	private String magnetLink;
-
-    private String directDownloadLink;
-
-	private Configuration configuration;
-
-    public String getName() {
+	public String getName() {
         return name;
     }
 
@@ -32,24 +22,12 @@ public class Torrent {
         this.name = name;
     }
 
-    public String getMagnetLink() {
-        return magnetLink;
-    }
-
-	public String getDirectDownloadLink() {
-		return directDownloadLink;
-	}
-
 	public String getUrl() {
         return url;
     }
 
 	public void setUrl(String url) {
 		this.url = url;
-	}
-
-	public void setConfiguration(Configuration configuration) {
-		this.configuration = configuration;
 	}
 
 	public void setDate(String date) {

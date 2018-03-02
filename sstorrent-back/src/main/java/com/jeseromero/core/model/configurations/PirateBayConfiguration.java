@@ -7,10 +7,6 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-/**
- * Created by Linkaynn on 19/02/2017.
- * SSTorrent
- */
 public class PirateBayConfiguration extends Configuration {
 
     public PirateBayConfiguration() {

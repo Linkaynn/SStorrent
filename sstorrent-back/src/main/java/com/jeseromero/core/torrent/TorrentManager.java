@@ -1,44 +1,54 @@
-package com.jeseromero.core.controller;
+package com.jeseromero.core.torrent;
 
 
-import com.jeseromero.core.controller.runnable.TorrentLoader;
+import com.jeseromero.core.controller.JSOUPController;
 import com.jeseromero.core.model.Configuration;
 import com.jeseromero.core.model.Torrent;
 import com.jeseromero.model.lightweight.JSONLightLink;
+import com.jeseromero.util.SLogger;
 import org.jsoup.nodes.Document;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
-public class TorrentSearcher {
+public class TorrentManager {
+
+	private static SLogger logger = new SLogger(TorrentManager.class.getName());
 
     private Configuration configuration;
 
-	private Collection<Torrent> torrents;
+	private int retries = 3;
 
-    private ExecutorService executorService = Executors.newFixedThreadPool(1);
-
-	public TorrentSearcher(Configuration configuration) {
+	public TorrentManager(Configuration configuration) {
         this.configuration = configuration;
     }
 
     public Collection<Torrent> search(String text, int index) {
 
+	    Collection<Torrent> torrents = new ArrayList<>();
+
 	    TorrentLoader torrentLoader = new TorrentLoader(configuration, text, index);
 
 	    try {
-	        torrents = executorService.submit(torrentLoader).get();
-	    } catch (InterruptedException | ExecutionException e) {
-	        e.printStackTrace();
+	        torrents = torrentLoader.retrieveTorrents();
+	    } catch (Exception e) {
+	        logger.warning("Failed searching for " + text);
+
+	        if (retries > 0) {
+		        logger.warning("Retrying search of " + text);
+		        retries--;
+		        search(text, index);
+	        } else {
+	        	logger.warning("Retries for " + text + " exceeded...");
+	        	logger.error(e);
+	        }
 	    }
 
 	    return torrents;
     }
 
-    public JSONLightLink retrieveLink(String link) {
-        Document htmlDocument = new JSOUPController().getHtmlDocument(link);
+    public JSONLightLink retrieveLink(String torrentLink) {
+        Document htmlDocument = new JSOUPController().getHtmlDocument(torrentLink);
 
         if (htmlDocument != null) {
             String magnetLink = configuration.getMagnetLink(htmlDocument);

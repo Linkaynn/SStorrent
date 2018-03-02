@@ -10,12 +10,6 @@ import com.jeseromero.core.model.configurations.PirateBayConfiguration;
 import java.util.ArrayList;
 import java.util.Collection;
 
-/**
- * @author jrarbelo - Jes? Romero Arbelo
- * @version Revision 1.1
- * <br> Revision 1.1 -> Versi?n inicial.
- * @since Release 2017
- */
 public class ConfigurationController {
 
     public Configuration getConfigurationByName(String name) {

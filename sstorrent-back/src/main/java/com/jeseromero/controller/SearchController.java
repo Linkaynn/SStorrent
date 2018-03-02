@@ -1,7 +1,7 @@
 package com.jeseromero.controller;
 
 
-import com.jeseromero.core.controller.TorrentSearcher;
+import com.jeseromero.core.torrent.TorrentManager;
 import com.jeseromero.core.model.Configuration;
 import com.jeseromero.core.model.Torrent;
 import com.jeseromero.model.Search;
@@ -33,7 +33,7 @@ public class SearchController {
 
 		if (mirrorConfig == null) return new ArrayList<>();
 
-		return new TorrentSearcher(mirrorConfig).search(value, index);
+		return new TorrentManager(mirrorConfig).search(value, index);
 	}
 
 	public JSONLightLink retrieveLink(String link, String mirror) {
@@ -41,7 +41,7 @@ public class SearchController {
 
 		if (mirrorConfig == null) return null;
 
-		return new TorrentSearcher(mirrorConfig).retrieveLink(link);
+		return new TorrentManager(mirrorConfig).retrieveLink(link);
 	}
 
 	public void registerSearch(User user, String value) throws IllegalStateException {

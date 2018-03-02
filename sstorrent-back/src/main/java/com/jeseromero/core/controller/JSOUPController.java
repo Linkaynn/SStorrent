@@ -9,10 +9,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
-/**
- * Created by Linkaynn on 12/02/2017.
- * TorrentSearcher
- */
 public class JSOUPController {
 
     public Document getHtmlDocument(String url) {
