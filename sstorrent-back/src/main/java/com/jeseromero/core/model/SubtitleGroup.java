@@ -17,4 +17,12 @@ public class SubtitleGroup {
 	public void add(Subtitle subtitle) {
 		subtitles.add(subtitle);
 	}
+
+	public String getType() {
+		return type;
+	}
+
+	public Collection<Subtitle> getSubtitles() {
+		return subtitles;
+	}
 }

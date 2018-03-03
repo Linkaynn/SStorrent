@@ -1,6 +1,8 @@
 package com.jeseromero;
 
 import com.jeseromero.controller.MirrorController;
+import com.jeseromero.core.managers.SubtitleManager;
+import com.jeseromero.core.model.Subtitle;
 import com.jeseromero.resources.*;
 import com.jeseromero.util.SLogger;
 
@@ -26,6 +28,10 @@ public class SSTorrent extends Application {
 	 */
 	@PostConstruct
 	public static void initialize() {
+		if (!SubtitleManager.isInitialized()) {
+			SubtitleManager.init();
+		}
+
 		mirrorController.checkExistenceOfAllMirrors();
 	}
 
@@ -33,7 +39,7 @@ public class SSTorrent extends Application {
 		Set<Class<?>> classes = new HashSet<>();
 
 		classes.add(LoginResource.class);
-		classes.add(LogResource.class);
+		classes.add(AdminResource.class);
 		classes.add(RegisterResource.class);
 		classes.add(UserResources.class);
 		classes.add(SearchResource.class);

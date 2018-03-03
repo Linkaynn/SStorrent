@@ -18,6 +18,10 @@ public class Season {
 		episodes.add(episode);
 	}
 
+	public int getSeasonIndex() {
+		return seasonIndex;
+	}
+
 	public Collection<Episode> getEpisodes() {
 		return episodes;
 	}

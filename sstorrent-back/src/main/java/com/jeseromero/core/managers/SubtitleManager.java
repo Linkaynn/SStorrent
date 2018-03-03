@@ -10,7 +10,7 @@ import java.util.Collection;
 
 public class SubtitleManager {
 
-	public static final double DISTANCE_THRESHOLD = 0.95;
+	public static final double DISTANCE_THRESHOLD = 0.84;
 
 	private static Collection<TVSeries> series = null;
 
@@ -18,6 +18,10 @@ public class SubtitleManager {
 
 	public static void init() {
 		series = new SubtitleRequester().getAllSeries();
+	}
+
+	public static boolean isInitialized() {
+		return series != null && series.size() > 0;
 	}
 
 	public SubtitleManager() {
@@ -33,7 +37,10 @@ public class SubtitleManager {
 			for (String value : values) {
 				String valueLowedCase = value.toLowerCase();
 
-				if (new JaroWinklerDistance().apply(tvSeriesName, valueLowedCase) >= DISTANCE_THRESHOLD) {
+				Double distance = new JaroWinklerDistance().apply(tvSeriesName, valueLowedCase);
+
+				if (distance >= DISTANCE_THRESHOLD) {
+					tvSeries.setDistance(distance);
 					filtered.add(tvSeries);
 					break;
 				}
@@ -44,13 +51,27 @@ public class SubtitleManager {
 		return filtered;
 	}
 
-	public Collection<Season> getSeasonsOf(TVSeries tvSeries) {
+	public Collection<Season> getSeasonsOf(String seriesID) {
 		Collection<Season> seasons = new ArrayList<>();
 
-		for (int i = 1; i <= tvSeries.getSeasons(); i++) {
-			seasons.add(subtitleRequester.getSeason(tvSeries, i));
+		TVSeries series = getSeries(seriesID);
+
+		if (series != null) {
+			for (int i = 1; i <= series.getSeasons(); i++) {
+				seasons.add(subtitleRequester.getSeason(seriesID, i));
+			}
 		}
 
 		return seasons;
+	}
+
+	private TVSeries getSeries(String seriesID) {
+		for (TVSeries tvSeries : series) {
+			if (tvSeries.getId().equals(seriesID)) {
+				return tvSeries;
+			}
+		}
+
+		return null;
 	}
 }

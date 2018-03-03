@@ -70,4 +70,34 @@ public class SearchResource extends SResource{
 
 		return Response.ok(new SResponse("error", new JSONLightError(3, "Error retrieving link of " + mirror)).toJSON()).build();
 	}
+
+	@POST
+	@Path("getApproachSeries/{torrentName}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getApproachSeriesOf(@PathParam("torrentName") String torrentName,
+	                                    @FormParam("token") String token) {
+
+		User user = getUser(token);
+
+		if (user != null) {
+			return Response.ok(new SResponse("ok", searchController.getApproachSeriesOf(torrentName)).toJSON()).build();
+		}
+
+		return Response.ok(new SResponse("error", new JSONLightError(3, "Error searching subtitles of " + torrentName)).toJSON()).build();
+	}
+
+	@POST
+	@Path("getSeasons/{seriesID}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getSeasonsOf(@PathParam("seriesID") String seriesID,
+	                                    @FormParam("token") String token) {
+
+		User user = getUser(token);
+
+		if (user != null) {
+			return Response.ok(new SResponse("ok", searchController.getSeasonsOf(seriesID)).toJSON()).build();
+		}
+
+		return Response.ok(new SResponse("error", new JSONLightError(3, "Error retrieving seasons of " + seriesID)).toJSON()).build();
+	}
 }

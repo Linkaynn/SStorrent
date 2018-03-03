@@ -8,6 +8,8 @@ public class TVSeries {
 
 	private int seasons;
 
+	private double distance;
+
 	public TVSeries(String name, String id) {
 		this.name = name;
 		this.id = id;
@@ -27,5 +29,9 @@ public class TVSeries {
 
 	public int getSeasons() {
 		return seasons;
+	}
+
+	public void setDistance(Double distance) {
+		this.distance = distance;
 	}
 }

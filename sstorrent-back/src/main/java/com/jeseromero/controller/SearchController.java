@@ -1,13 +1,17 @@
 package com.jeseromero.controller;
 
 
+import com.jeseromero.core.managers.SubtitleManager;
 import com.jeseromero.core.managers.TorrentManager;
 import com.jeseromero.core.model.Configuration;
 import com.jeseromero.core.model.Torrent;
 import com.jeseromero.model.Search;
 import com.jeseromero.model.User;
 import com.jeseromero.model.lightweight.JSONLightLink;
+import com.jeseromero.model.lightweight.JSONLightSeasons;
+import com.jeseromero.model.lightweight.JSONLightSeries;
 import com.jeseromero.persistence.DBSessionFactory;
+import com.jeseromero.util.SearchUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -60,4 +64,11 @@ public class SearchController {
 
 	}
 
+	public JSONLightSeries getApproachSeriesOf(String torrentName) {
+		return new JSONLightSeries(new SubtitleManager().searchBy(SearchUtil.torrentNameDecompose(torrentName)));
+	}
+
+	public JSONLightSeasons getSeasonsOf(String seriesID) {
+		return new JSONLightSeasons(new SubtitleManager().getSeasonsOf(seriesID));
+	}
 }

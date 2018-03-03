@@ -40,7 +40,7 @@ public class SubtitlesTest {
 
 		TVSeries tvSeries = series.iterator().next();
 
-		for (Season season : subtitleManager.getSeasonsOf(tvSeries)) {
+		for (Season season : subtitleManager.getSeasonsOf(tvSeries.getId())) {
 			for (Episode episode : season.getEpisodes()) {
 				System.out.println(episode.getName());
 			}

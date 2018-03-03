@@ -30,10 +30,10 @@ public class SubtitleRequester {
 		return series;
 	}
 
-	public Season getSeason(TVSeries tvSeries, int seasonIndex) {
+	public Season getSeason(String seriesID, int seasonIndex) {
 		Season season = new Season(seasonIndex);
 
-		Document document = new HTTPRequest().getHtmlDocument("https://www.tusubtitulo.com/ajax_loadShow.php?show=" + tvSeries.getId() + "&season=" + seasonIndex);
+		Document document = new HTTPRequest().getHtmlDocument("https://www.tusubtitulo.com/ajax_loadShow.php?show=" + seriesID + "&season=" + seasonIndex);
 
 		Elements groups = document.select("tbody");
 
@@ -66,7 +66,7 @@ public class SubtitleRequester {
 
 					if (subtitleData.size() > 6 && subtitleData.get(5).text().trim().toLowerCase().equals("completado")) {
 						String language = subtitleData.get(4).text();
-						String link = subtitleData.get(6).select("a").attr("href");
+						String link = subtitleData.get(6).select("a").attr("href").substring(2);
 
 						subtitleGroup.add(new Subtitle(language, link));
 					}

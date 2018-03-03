@@ -21,4 +21,8 @@ public class Episode {
 	public String getName() {
 		return name;
 	}
+
+	public Collection<SubtitleGroup> getSubtitlesGroups() {
+		return subtitleGroups;
+	}
 }
